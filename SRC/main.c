@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "NuMicro.h"
 #include "main.h"
+//#include "24LC02.h"
 
 void io_config(void);
 void io_init(void);
@@ -342,5 +343,14 @@ void TMR0_IRQHandler(void)
 
 }
 
+void TMR1_IRQHandler(void)
+{
+	/* ¨C¬í10¦¸ */
 
-/*** (C) COPYRIGHT 2017 Nuvoton Technology Corp. ***/
+	/* Clean Timer1 Interrupt Flag */
+	TIMER_ClearIntFlag(TIMER1);
+	/* Clean TIMER0 Wake up Flag */
+	TIMER_ClearWakeupFlag(TIMER1);
+
+}
+
