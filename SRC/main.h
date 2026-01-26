@@ -52,8 +52,8 @@ extern "C"
 #define	N3_F_PIN				PC14
 #define	N3_G_PIN				PB14
 
-//#define CE
-#define FCC
+#define CE
+//#define FCC
 //#define RCM
 //#define TELEC
 

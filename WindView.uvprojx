@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\obj\</OutputDirectory>
-          <OutputName>1491-110TRHB-034</OutputName>
+          <OutputName>1491-WINDV-001</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -493,6 +493,11 @@
               <FileName>hal_spi_rf.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\SRC\hal_spi_rf.c</FilePath>
+            </File>
+            <File>
+              <FileName>led_font.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\led_font.c</FilePath>
             </File>
           </Files>
         </Group>
