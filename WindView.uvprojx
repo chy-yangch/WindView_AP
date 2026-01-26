@@ -459,6 +459,11 @@
               <FileType>1</FileType>
               <FilePath>.\Library\StdDriver\src\wdt.c</FilePath>
             </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Library\StdDriver\src\spi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -468,6 +473,26 @@
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\SRC\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>24LC02.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\24LC02.c</FilePath>
+            </File>
+            <File>
+              <FileName>cc120x_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\cc120x_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>cc1200.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\cc1200.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal_spi_rf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\hal_spi_rf.c</FilePath>
             </File>
           </Files>
         </Group>

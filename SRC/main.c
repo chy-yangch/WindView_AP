@@ -10,11 +10,14 @@
 #include <stdio.h>
 #include "NuMicro.h"
 #include "main.h"
-//#include "24LC02.h"
+#include "24LC02.h"
 
 void io_config(void);
 void io_init(void);
 void LXT_Enable(void);
+
+__IO uint8_t cc1200_get_flag = 0;
+struct RX_INFO info;
 
 void SYS_Init(void)
 {
@@ -79,8 +82,6 @@ void SYS_Init(void)
 
     /* Lock protected registers */
     SYS_LockReg();
-
-
 
     	/* Open I2C0 and set clock to 100k */
 	I2C_Open(I2C0, 100000);
@@ -186,7 +187,7 @@ void io_init(void)
 	// PA0 	SPI0_MOSI		FUN/O
 
 	PA->MODE 		=	0x55555051;
-	PA->DINOFF 	=	0x00000000;
+	PA->DINOFF 		=	0x00000000;
 	PA->DOUT 		=	0x00000000;
 	PA->DATMSK 	=	0x00000000;		//Data Output Write Mask
 	PA->SLEWCTL 	=	0x00000000; 		//High Slew Rate Control Register
@@ -199,7 +200,7 @@ void io_init(void)
 	// PB11 	N2_E_PIN		IO/O
 	// PB10 	N3_E_PIN		IO/O
 	// PB9 	N3_C_PIN		IO/O
-	// PB8 	DOT_PIN		IO/O
+	// PB8 	DOT_PIN			IO/O
 	// PB7 	N2_D_PIN		IO/O
 	// PB6 	N3_D_PIN		IO/O
 	// PB5 	PWM0_BEEPER_SW	IO/O
@@ -212,8 +213,8 @@ void io_init(void)
 	PB->MODE 		=	0x55555555;
 	PB->DINOFF 		=	0x00000000;
 	PB->DOUT 		=	0x00000000;
-	PB->DATMSK 	=	0x00000000;			//Data Output Write Mask
-	PB->SLEWCTL 	=	0x00000000;			//High Slew Rate Control Register
+	PB->DATMSK 	=	0x00000000;		//Data Output Write Mask
+	PB->SLEWCTL 	=	0x00000000;		//High Slew Rate Control Register
 	PB->PUSEL 		=	0x00000000;
 
 	// PC15	X				IO/I - only Input
@@ -236,8 +237,8 @@ void io_init(void)
 	PC->MODE 		=	0x11555004;
 	PC->DINOFF 		=	0x00000000;
 	PC->DOUT 		=	0x00005FFF;
-	PC->DATMSK 	=	0x00000000;			//Data Output Write Mask
-	PC->SLEWCTL 	=	0x00000000;			//High Slew Rate Control Register
+	PC->DATMSK 	=	0x00000000;		//Data Output Write Mask
+	PC->SLEWCTL 	=	0x00000000;		//High Slew Rate Control Register
 	PC->PUSEL 		=	0x00000040;
 
 	// PD15 	W1_RESET		IO/O
@@ -258,10 +259,10 @@ void io_init(void)
 	// PD0	RSSI_1_PIN		IO/O
 
 	PD->MODE 		=	0x45555555;
-	PD->DINOFF 	=	0x00000000;
+	PD->DINOFF 		=	0x00000000;
 	PD->DOUT 		=	0x00000000;
-	PD->DATMSK 	=	0x00000000;			//Data Output Write Mask
-	PD->SLEWCTL 	=	0x00000000;			//High Slew Rate Control Register
+	PD->DATMSK 	=	0x00000000;		//Data Output Write Mask
+	PD->SLEWCTL 	=	0x00000000;		//High Slew Rate Control Register
 	PD->PUSEL 		=	0x00000001;
 
 	// PE15	X				IO/O
@@ -285,7 +286,7 @@ void io_init(void)
 	PE->DINOFF 		=	0x00000000;
 	PE->DOUT 		=	0x00000000;
 	PE->DATMSK 	=	0x00000000;		//Data Output Write Mask
-	PE->SLEWCTL 	=	0x00000000;   	//High Slew Rate Control Register
+	PE->SLEWCTL 	=	0x00000000;   		//High Slew Rate Control Register
 	PE->PUSEL 		=	0x00000000;
 
 	// PF15 	X				IO/O
@@ -302,14 +303,14 @@ void io_init(void)
 	// PF4 	X_OUT			FUN-X32_OUT
 	// PF3 	UART0_TXD		FUN/O
 	// PF2 	UART0_RXD		FUN/I
-	// PF1 	CLK			CLK
-	// PF0	DAT			DAT
+	// PF1 	CLK				CLK
+	// PF0	DAT				DAT
 
 	PF->DOUT 		=	0x00004044;
 	PF->MODE 		=	0x00004041;
 	PF->DINOFF 		=	0x00000000;
-	PF->DATMSK 	=	0x00000000;			//Data Output Write Mask
-	PF->SLEWCTL 	=	0x00000000;			//High Slew Rate Control Register
+	PF->DATMSK 		=	0x00000000;		//Data Output Write Mask
+	PF->SLEWCTL 	=	0x00000000;		//High Slew Rate Control Register
 	PF->PUSEL 		=	0x00000000;
 
 }
