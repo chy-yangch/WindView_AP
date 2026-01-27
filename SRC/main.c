@@ -11,6 +11,8 @@
 #include "NuMicro.h"
 #include "main.h"
 #include "24LC02.h"
+#include "ui.h"
+#include "key_scan.h"
 
 void io_config(void);
 void io_init(void);
@@ -129,16 +131,15 @@ void SYS_Init(void)
  */
 int main()
 {
-    SYS_Init();
+	SYS_Init();
+	key_case_init();
+	ui_init();
 
-    /* Init UART to 115200-8n1 for print message */
-    UART_Open(UART0, 115200);
+	while (1){
 
-    /* Connect UART to PC, and open a terminal tool to receive following message */
-    printf("Hello World\n");
-
-    /* Got no where to go, just loop forever */
-    while (1);
+		key_case_array[info.current_page]();
+		ui_fun_array[info.current_page]();
+	}
 }
 
 void io_config(void)

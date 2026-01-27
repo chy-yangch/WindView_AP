@@ -499,6 +499,16 @@
               <FileType>1</FileType>
               <FilePath>.\SRC\led_font.c</FilePath>
             </File>
+            <File>
+              <FileName>ui.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\ui.c</FilePath>
+            </File>
+            <File>
+              <FileName>key_scan.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\SRC\key_scan.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

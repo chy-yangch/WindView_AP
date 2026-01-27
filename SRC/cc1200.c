@@ -1212,7 +1212,7 @@ void runRX_none(SPI_T * spi_none) {
 
 				memcpy((void*)info.origin_tx_data,(uint8_t *)&rxBuffer[1],13);
 
-				info.wireless_get_cn++;
+				//info.wireless_get_cn++;
 				info.cc1200_timeout_cn = 0;
 				info.cc1200_sleep_mode = OFF;
 				cc1200_wait_rx_flag = 0;
@@ -1543,21 +1543,7 @@ void runTX_ota(SPI_T * spi,uint8_t *ota_package) {
 
 void cc1200_power_off(void)
 {
-	if(info.cal_mode == ON) {
-
-		__NOP();
-
-	} else {
-		cc1200_power_down();
-
-//		SPI_Close(SPI0);
-//		RESET_N_PIN = 0;
-//		APO1_PIN = 1;
-//		SYS_UnlockReg();
-//		SYS->GPB_MFPH &= 0x00;
-//		SYS_LockReg();
-//		cc1200_power_on = OFF;
-	}
+	cc1200_power_down();
 }
 
 
