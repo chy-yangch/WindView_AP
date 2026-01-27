@@ -1,6 +1,11 @@
 #include <stdint.h>
 #include "NuMicro.h"
 
+extern void unit_show(uint8_t on_off,uint8_t unit_type);
+extern void rssi_show(uint8_t on_off,uint8_t rss_level);
+extern void led_7seg_number_show(uint8_t on_off,uint16_t value);
+extern void led_7seg_text_show(uint8_t on_off,uint8_t word);
+
 enum symbol_item {
 
 	COLON_SYMBOL,		// :
@@ -43,3 +48,37 @@ enum font_text {
 	TEXT_Z,
 
 };
+
+enum rssi_level {
+
+	RSSI_LV0,
+	RSSI_LV1,
+	RSSI_LV2,
+	RSSI_LV3,
+	RSSI_LV4,
+};
+
+enum unit_typel {
+
+	UNIT_MS,
+	UNIT_KM,
+	UNIT_MP,
+
+};
+
+enum led_7seg_text_item {
+
+	TEXT_DEV,
+	TEXT_AD,
+	TEXT_THR,
+	TEXT_SND,
+	TEXT_DUR,
+	TEXT_FLA,
+	TEXT_BRL,
+	TEXT_UNT,
+	TEXT_NOD,
+
+};
+
+
+
