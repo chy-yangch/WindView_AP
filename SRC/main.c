@@ -13,10 +13,13 @@
 #include "24LC02.h"
 #include "ui.h"
 #include "key_scan.h"
+#include "cc1200.h"
 
 void io_config(void);
 void io_init(void);
 void LXT_Enable(void);
+void function_init(void);
+void mcu_idle(void);
 
 __IO uint8_t cc1200_get_flag = 0;
 struct RX_INFO info;
@@ -92,6 +95,17 @@ void SYS_Init(void)
 	I2C_EnableInt(I2C0);
 	NVIC_EnableIRQ(I2C0_IRQn);
 
+	/* Init SPI */
+	/* Select PCLK0 as the clock source of SPI0 */
+	CLK_SetModuleClock(SPI0_MODULE, CLK_CLKSEL2_SPI0SEL_PCLK1, MODULE_NoMsk);
+	/* Enable SPI0 peripheral clock */
+	CLK_EnableModuleClock(SPI0_MODULE);
+	/* Configure SPI_FLASH_PORT as a master, MSB first, 8-bit transaction, SPI Mode-0 timing, clock is 20MHz */
+	SPI_Open(SPI0, SPI_MASTER, SPI_MODE_0, 8, 2000000);
+	/* Disable auto SS function, control SS signal manually. */
+	SPI_DisableAutoSS(SPI0);
+
+
 	TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 10);
 	//TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 1);
 	//TIMER_Open(TIMER2, TIMER_PERIODIC_MODE, 1);
@@ -119,6 +133,12 @@ void SYS_Init(void)
 	//TIMER_Start(TIMER1);
 	//TIMER_Start(TIMER2);
 	//TIMER_Start(TIMER3);
+
+	/* Configure PA.5 as Input mode and enable interrupt by rising edge trigger */
+	GPIO_SetMode(PA, BIT5, GPIO_MODE_INPUT);
+	GPIO_EnableInt(PA, 5, GPIO_INT_RISING);
+	NVIC_EnableIRQ(GPA_IRQn);
+
 }
 
 
@@ -132,13 +152,15 @@ void SYS_Init(void)
 int main()
 {
 	SYS_Init();
-	key_case_init();
-	ui_init();
+	function_init();
+	page_logo();
 
 	while (1){
 
+		runRX(SPI0);
 		key_case_array[info.current_page]();
 		ui_fun_array[info.current_page]();
+		mcu_idle();
 	}
 }
 
@@ -343,6 +365,8 @@ void TMR0_IRQHandler(void)
 	/* Clean TIMER0 Wake up Flag */
 	TIMER_ClearWakeupFlag(TIMER0);
 
+	Key_Scan();
+
 }
 
 void TMR1_IRQHandler(void)
@@ -356,3 +380,69 @@ void TMR1_IRQHandler(void)
 
 }
 
+void function_init(void)
+{
+	ui_init();
+	key_case_init();
+	led_font_init();
+}
+
+void windview_eeprom_read(void)
+{
+	uint8_t i = 0;
+	int32_t reg_int32 = 0;
+
+	CLK_SysTickDelay(5000);
+
+	info.windv_type			=	eep2402_r_uint8(EEP_WINDV_TYPE);
+	info.windv_ad				=	eep2402_r_uint8(EEP_WINDV_AD);
+	info.windv_unit			=	eep2402_r_uint8(EEP_WINDV_UNIT);
+	info.windv_thr				=	eep2402_r_uint8(EEP_WINDV_THR);
+	info.windv_sound_sw 		=	eep2402_r_uint8(EEP_WINDV_SOUND_SW);
+	info.windv_sound_reset_time 	=	eep2402_r_uint8(EEP_WINDV_SOUND_RESET_TIME);
+	info.windv_light_level 		=	eep2402_r_uint8(EEP_WINDV_LIGHT_LEVEL);
+	info.windv_mode			=	eep2402_r_uint8(EEP_WINDV_MODE);
+
+	CLK_SysTickDelay(5000);
+}
+
+void GPA_IRQHandler(void)
+{
+    /* To check if PA.5 interrupt occurred */
+    if (GPIO_GET_INT_FLAG(PA, BIT5))
+    {
+        GPIO_CLR_INT_FLAG(PA, BIT5);
+
+	packetSemaphore = ISR_ACTION_REQUIRED;
+
+	/* 提早10ms,其中5ms對CC1200設定
+	 * 移到中斷處計算,才不會因為CC1200 Timeout
+	 * 因執行主程式造成時間計算上的誤差
+	 */
+
+	 TIMER2->CMP = 327680;
+
+	// TIMER1->CMP = 65012; //free run 提早16ms - timeout :720
+	//TIMER1->CMP = 64848; //debug 提早16ms    - timeout :1000
+	TIMER1->CMP = 64881; //327 - ok free run 模式需使用此參數,提早ms
+	TIMER3->CMP = 64881 + 654; //比TIMER1 + 20ms
+	//TIMER3->CMP = 64881 + 490; //比TIMER1 + 15ms
+	 //TIMER3->CMP = 64881 + 392; //比TIMER1 + 12ms
+	//TIMER1->CMP = 64440;   //327 - 因debug模式下會比較慢故需用此參數
+
+    }
+    else
+    {
+        /* Un-expected interrupt. Just clear all PC interrupts */
+        PA->INTSRC = PA->INTSRC;
+    }
+}
+
+void mcu_idle(void)
+{
+	info.exit_sleep_flag = 0;
+
+	while(!info.exit_sleep_flag) {	
+		CLK_Idle();
+	}
+}

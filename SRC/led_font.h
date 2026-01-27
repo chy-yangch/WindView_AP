@@ -1,22 +1,29 @@
 #include <stdint.h>
 #include "NuMicro.h"
 
-extern void unit_show(uint8_t on_off,uint8_t unit_type);
-extern void rssi_show(uint8_t on_off,uint8_t rss_level);
-extern void led_7seg_number_show(uint8_t on_off,uint16_t value);
-extern void led_7seg_text_show(uint8_t on_off,uint8_t word);
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
-enum symbol_item {
+extern uint8_t unit_show(uint8_t on_off,uint8_t unit_type);
+extern uint8_t rssi_show(uint8_t on_off,uint8_t rss_level);
+extern uint8_t led_7seg_number_show(uint8_t on_off,uint16_t value);
+extern uint8_t led_7seg_text_show(uint8_t on_off,uint8_t word);
 
-	COLON_SYMBOL,		// :
-	MINUS_SYMBOL,		// -
-	PERCENT_SYMBOL,	// %
-	EQUAL_SYMBOL,		// =
-	FRENCH_e_SYMBOL,	//e'
-	GERMAN_U_SYMBOL,	//U"
-	GERMAN_u_SYMBOL,	//u"
+struct LED_Font{
+
+	 //void (*p_read_RTC)();
+	uint8_t (*unit_show)(uint8_t on_off,uint8_t unit_type);
+	uint8_t (*rssi_show)(uint8_t on_off,uint8_t rss_level);
+	uint8_t (*led_7seg_number_show)(uint8_t on_off,uint16_t value);
+	uint8_t (*led_7seg_text_show)(uint8_t on_off,uint8_t word);
+	uint8_t (*led_7seg_pic_show)(uint8_t on_off,uint8_t pic_item,uint8_t item_index);
 
 };
+
+extern void led_font_init(void);
+extern struct LED_Font led_font_fun;
 
 enum font_text {
 
@@ -80,5 +87,14 @@ enum led_7seg_text_item {
 
 };
 
+enum led_7seg_pic_item {
 
+	PIC_ALL_ON,
+	PIC_TURN_ON_MOVE,
+	PIC_NO_LINK,
+	PIC_RESET_ROLL,
+
+
+
+};
 

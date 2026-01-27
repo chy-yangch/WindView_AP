@@ -30,3 +30,16 @@ extern void eerom2402_w_unt8(uint8_t addr,uint8_t data);
 extern void eerom2402_w_int16(uint8_t addr,int16_t data);
 extern void eerom2402_w_int32(uint8_t addr,int32_t data);
 extern void eerom2402_w_float(uint8_t addr,float data);
+
+enum windv_eeprom_addr {
+
+	EEP_WINDV_TYPE ,
+	EEP_WINDV_AD ,
+	EEP_WINDV_UNIT,
+	EEP_WINDV_THR,
+	EEP_WINDV_SOUND_SW,
+	EEP_WINDV_SOUND_RESET_TIME,
+	EEP_WINDV_LIGHT_LEVEL,
+	EEP_WINDV_MODE,
+
+};

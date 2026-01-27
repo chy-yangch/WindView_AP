@@ -949,10 +949,10 @@ void registerConfig(void)
 	uint16_t i;
 
 	// Reset RF Module
-	RESET_N_PIN = 0;
+	W1_RESET = 0;
 	//delay_cycles(3);
 	CLK_SysTickDelay(1000);
-	RESET_N_PIN = 1;
+	W1_RESET = 1;
 	//delay_cycles(3000);
 	CLK_SysTickDelay(1000);
 
@@ -1203,10 +1203,10 @@ void runRX_none(SPI_T * spi_none) {
 
 				cc1200_get_flag = ON;
 
-				if(info.current_page == TEST_Page)
-					__NOP();
-				else
-					cc1200_power_off();
+//				if(info.current_page == TEST_Page)
+//					__NOP();
+//				else
+//					cc1200_power_off();
 
 				memset((void*)info.origin_tx_data,0,sizeof(info.origin_tx_data));
 
@@ -1442,13 +1442,13 @@ void runRX_none(SPI_T * spi_none) {
 			}
 		} else {
 
-			if ((info.current_page == TEST_Page) || (info.cc1200_sleep_mode) || ((info.wr3ptx_info.wr3ptx_first_data_get == OFF) && (info.cc1200_timeout_cn <= 60))) {
+//			if ((info.current_page == TEST_Page) || (info.cc1200_sleep_mode) || ((info.wr3ptx_info.wr3ptx_first_data_get == OFF) && (info.cc1200_timeout_cn <= 60))) {
 
-				__NOP();
+//				__NOP();
 
-			} else {
-				cc1200_power_off();
-			}
+//			} else {
+//				cc1200_power_off();
+//			}
 
 			packetSemaphore = ISR_IDLE;
 		}

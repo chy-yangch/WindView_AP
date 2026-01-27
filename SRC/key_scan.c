@@ -20,7 +20,7 @@ void key_case_init(void)
 {
 	key_case_array[0] = key_page_logo;
 	key_case_array[1] = key_page_main;
-	key_case_array[1] = key_page_dev;
+	key_case_array[2] = key_page_dev;
 }
 
 

@@ -93,7 +93,7 @@ struct WR3PTX_INFO {
 
 struct RX_INFO {
 
-	__IO enum  {LOGO_Page,MAIN_Page, AVG_MAX_Page, CHART_Page, HISTORY_1_Page, HISTORY_2_Page, HISTORY_3_Page,SETTINGS_Page,GENERAL_1_Page,GENERAL_2_Page,DATA_LOGGING_Page,WIND_SPEED_Page,START_LOGGING_Page,STOP_LOGGING_Page,CLEAR_DATA_Page,TEST_Page,DOWNLOAD_Page,FIRMWARE_UPDATE_Page} current_page;
+	__IO current_page;
 	__IO enum  {INIT,WORK} page_step;
 
 	__IO uint8_t wireless_ch_status;
@@ -117,9 +117,23 @@ struct RX_INFO {
 	__IO enum  {W_FCC,W_CE,W_RCM,W_TELEC} country;
 	__IO enum  {T_NORMAL,T_DIRECTION} type;
 	__IO uint8_t rssi_value_show;
+	
+	__IO uint8_t exit_sleep_flag;
+	
+	__IO uint8_t windv_type;
+	__IO uint8_t windv_ad;
+	__IO uint8_t windv_unit;
+	__IO uint8_t windv_thr;
+	__IO uint8_t windv_sound_sw;
+	__IO uint8_t windv_sound_reset_time;
+	__IO uint8_t windv_light_level;
+	__IO uint8_t windv_mode;
 
 };
 
 extern __IO uint8_t cc1200_get_flag;
 
 extern struct RX_INFO info;
+
+extern void windview_eeprom_read(void);
+

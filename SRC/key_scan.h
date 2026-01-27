@@ -58,3 +58,5 @@ extern void key_case_init(void);
 
 extern void (*key_case_array[25])();
 
+extern void page_logo (void);
+

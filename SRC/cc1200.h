@@ -4,7 +4,7 @@ extern "C"
 {
 #endif
 
-#define GPIO2 PE1
+#define W1_GPIO2_INT		PA5
 #define ISR_ACTION_REQUIRED     1
 
 //#define MF_920_7
@@ -18,7 +18,7 @@ extern "C"
 #define PKTLEN                  64//64
 #define ISR_IDLE                0
 #define WL_LEN_BYTE		16
-#define RESET_N_PIN            PE2
+#define W1_RESET			PD15
 
 extern volatile uint8_t cc1200_work_ch;
 extern volatile uint8_t packetSemaphore;

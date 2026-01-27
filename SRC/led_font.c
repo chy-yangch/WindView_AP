@@ -8,10 +8,14 @@
 #include "led_font.h"
 #include "main.h"
 
+
+
+struct LED_Font led_font_fun;
+
 //===================================================
 //	NO 1
 //===================================================
-void led_n1_number(uint8_t on_off,uint8_t no)
+uint8_t led_n1_number(uint8_t on_off,uint8_t no)
 {
 	if (on_off == OFF) {
 
@@ -160,9 +164,11 @@ void led_n1_number(uint8_t on_off,uint8_t no)
 				break;
 		}
 	}
+
+	return 0;
 }
 
-void led_n1_text(uint8_t on_off,uint8_t text)
+uint8_t led_n1_text(uint8_t on_off,uint8_t text)
 {
 	if (on_off == OFF) {
 
@@ -503,12 +509,14 @@ void led_n1_text(uint8_t on_off,uint8_t text)
 				break;
 		}
 	}
+
+	return 0;
 }
 
 //===================================================
 //	NO 2
 //===================================================
-void led_n2_number(uint8_t on_off,uint8_t no)
+uint8_t led_n2_number(uint8_t on_off,uint8_t no)
 {
 	if (on_off == OFF) {
 
@@ -657,9 +665,11 @@ void led_n2_number(uint8_t on_off,uint8_t no)
 				break;
 		}
 	}
+
+	return 0;
 }
 
-void led_n2_text(uint8_t on_off,uint8_t text)
+uint8_t led_n2_text(uint8_t on_off,uint8_t text)
 {
 	if (on_off == OFF) {
 
@@ -1000,12 +1010,14 @@ void led_n2_text(uint8_t on_off,uint8_t text)
 				break;
 		}
 	}
+
+	return 0;
 }
 
 //===================================================
 //	NO 3
 //===================================================
-void led_n3_number(uint8_t on_off,uint8_t no)
+uint8_t led_n3_number(uint8_t on_off,uint8_t no)
 {
 	if (on_off == OFF) {
 
@@ -1154,9 +1166,11 @@ void led_n3_number(uint8_t on_off,uint8_t no)
 				break;
 		}
 	}
+
+	return 0;
 }
 
-void led_n3_text(uint8_t on_off,uint8_t text)
+uint8_t led_n3_text(uint8_t on_off,uint8_t text)
 {
 	if (on_off == OFF) {
 
@@ -1497,11 +1511,13 @@ void led_n3_text(uint8_t on_off,uint8_t text)
 				break;
 		}
 	}
+
+	return 0;
 }
 
 //===================================================
 
-void unit_show(uint8_t on_off,uint8_t unit_type)
+uint8_t unit_show(uint8_t on_off,uint8_t unit_type)
 {
 	if (on_off == OFF) {
 
@@ -1533,9 +1549,11 @@ void unit_show(uint8_t on_off,uint8_t unit_type)
 		KM_PIN = 0;
 		MS_PIN = 0;
 	}
+
+	return 0;
 }
 
-void rssi_show(uint8_t on_off,uint8_t rss_level)
+uint8_t rssi_show(uint8_t on_off,uint8_t rss_level)
 {
 	if (on_off == OFF) {
 
@@ -1587,9 +1605,10 @@ void rssi_show(uint8_t on_off,uint8_t rss_level)
 		RSSI_4_PIN = 0;
 	}
 
+	return 0;
 }
 
-void led_7seg_number_show(uint8_t on_off,uint16_t value)
+uint8_t led_7seg_number_show(uint8_t on_off,uint16_t value)
 {
 	uint8_t num = 0;
 
@@ -1660,11 +1679,13 @@ void led_7seg_number_show(uint8_t on_off,uint16_t value)
 
 		}
 	}
+
+	return 0;
 }
 
 
 
-void led_7seg_text_show(uint8_t on_off,uint8_t word)
+uint8_t led_7seg_text_show(uint8_t on_off,uint8_t word)
 {
 
 	if (on_off == OFF) {
@@ -1766,4 +1787,334 @@ void led_7seg_text_show(uint8_t on_off,uint8_t word)
 
 		}
 	}
+
+	return 0;
+}
+
+
+uint8_t led_7seg_pic_show(uint8_t on_off,uint8_t pic_item,uint8_t item_index)
+{
+
+	if (on_off == OFF) {
+
+		// All OFF
+		DOT_PIN = 0;
+
+		led_n1_number(OFF,0xff);
+		led_n2_number(OFF,0xff);
+		led_n3_number(OFF,0xff);
+
+		RSSI_1_PIN = 0;
+		RSSI_2_PIN = 0;
+		RSSI_3_PIN = 0;
+		RSSI_4_PIN = 0;
+
+		MP_PIN = 0;
+		KM_PIN = 0;
+		MS_PIN = 0;
+
+	} else {
+
+		switch (pic_item) {
+
+			case PIC_ALL_ON:
+
+				// All ON
+				DOT_PIN = 1;
+
+				led_n1_number(ON,8);
+				led_n2_number(ON,8);
+				led_n3_number(ON,8);
+
+				RSSI_1_PIN = 1;
+				RSSI_2_PIN = 1;
+				RSSI_3_PIN = 1;
+				RSSI_4_PIN = 1;
+
+				MP_PIN = 1;
+				KM_PIN = 1;
+				MS_PIN = 1;
+
+				break;
+
+			case PIC_TURN_ON_MOVE:	// 開機全顯後右移
+
+				if (item_index == 0) {
+
+					N1_A_PIN = 1;
+					N1_B_PIN = 0;
+					N1_C_PIN = 0;
+					N1_D_PIN = 1;
+					N1_E_PIN = 0;
+					N1_F_PIN = 0;
+					N1_G_PIN = 1;
+
+					N2_A_PIN = 0;
+					N2_B_PIN = 0;
+					N2_C_PIN = 0;
+					N2_D_PIN = 0;
+					N2_E_PIN = 0;
+					N2_F_PIN = 0;
+					N2_G_PIN = 0;
+
+					N3_A_PIN = 0;
+					N3_B_PIN = 0;
+					N3_C_PIN = 0;
+					N3_D_PIN = 0;
+					N3_E_PIN = 0;
+					N3_F_PIN = 0;
+					N3_G_PIN = 0;
+
+				} else if (item_index == 1) {
+
+					N1_A_PIN = 0;
+					N1_B_PIN = 0;
+					N1_C_PIN = 0;
+					N1_D_PIN = 0;
+					N1_E_PIN = 0;
+					N1_F_PIN = 0;
+					N1_G_PIN = 0;
+
+					N2_A_PIN = 1;
+					N2_B_PIN = 0;
+					N2_C_PIN = 0;
+					N2_D_PIN = 1;
+					N2_E_PIN = 0;
+					N2_F_PIN = 0;
+					N2_G_PIN = 1;
+
+					N3_A_PIN = 0;
+					N3_B_PIN = 0;
+					N3_C_PIN = 0;
+					N3_D_PIN = 0;
+					N3_E_PIN = 0;
+					N3_F_PIN = 0;
+					N3_G_PIN = 0;
+
+				} else if (item_index == 2) {
+
+					N1_A_PIN = 0;
+					N1_B_PIN = 0;
+					N1_C_PIN = 0;
+					N1_D_PIN = 0;
+					N1_E_PIN = 0;
+					N1_F_PIN = 0;
+					N1_G_PIN = 0;
+
+					N2_A_PIN = 0;
+					N2_B_PIN = 0;
+					N2_C_PIN = 0;
+					N2_D_PIN = 0;
+					N2_E_PIN = 0;
+					N2_F_PIN = 0;
+					N2_G_PIN = 0;
+
+					N3_A_PIN = 1;
+					N3_B_PIN = 0;
+					N3_C_PIN = 0;
+					N3_D_PIN = 1;
+					N3_E_PIN = 0;
+					N3_F_PIN = 0;
+					N3_G_PIN = 1;
+
+				} else {
+					__NOP();
+				}
+
+				break;
+
+			case PIC_NO_LINK:
+
+				DOT_PIN = 0;
+
+				N1_A_PIN = 0;
+				N1_B_PIN = 0;
+				N1_C_PIN = 0;
+				N1_D_PIN = 0;
+				N1_E_PIN = 0;
+				N1_F_PIN = 0;
+				N1_G_PIN = 1;
+
+				led_n2_number(OFF,0xFF);
+
+				N3_A_PIN = 0;
+				N3_B_PIN = 0;
+				N3_C_PIN = 0;
+				N3_D_PIN = 0;
+				N3_E_PIN = 0;
+				N3_F_PIN = 0;
+				N3_G_PIN = 1;
+
+				RSSI_1_PIN = 0;
+				RSSI_2_PIN = 0;
+				RSSI_3_PIN = 0;
+				RSSI_4_PIN = 0;
+
+				MP_PIN = 0;
+				KM_PIN = 0;
+				MS_PIN = 0;
+
+				break;
+
+			case PIC_RESET_ROLL:
+
+				DOT_PIN = 0;
+				MP_PIN = 0;
+				KM_PIN = 0;
+				MS_PIN = 0;
+
+				if (item_index == 0) {
+
+					N1_A_PIN = 1;
+					N1_B_PIN = 0;
+					N1_C_PIN = 0;
+					N1_D_PIN = 0;
+					N1_E_PIN = 0;
+					N1_F_PIN = 0;
+					N1_G_PIN = 0;
+
+					led_n2_number(OFF,0xFF);
+					led_n3_number(OFF,0xFF);
+
+				} else if (item_index == 1) {
+
+					led_n1_number(OFF,0xFF);
+
+					N2_A_PIN = 1;
+					N2_B_PIN = 0;
+					N2_C_PIN = 0;
+					N2_D_PIN = 0;
+					N2_E_PIN = 0;
+					N2_F_PIN = 0;
+					N2_G_PIN = 0;
+
+					led_n3_number(OFF,0xFF);
+
+				} else if (item_index == 2) {
+
+					led_n1_number(OFF,0xFF);
+					led_n2_number(OFF,0xFF);
+
+					N3_A_PIN = 1;
+					N3_B_PIN = 0;
+					N3_C_PIN = 0;
+					N3_D_PIN = 0;
+					N3_E_PIN = 0;
+					N3_F_PIN = 0;
+					N3_G_PIN = 0;
+
+				} else if (item_index == 3) {
+
+					led_n1_number(OFF,0xFF);
+					led_n2_number(OFF,0xFF);
+
+					N3_A_PIN = 0;
+					N3_B_PIN = 1;
+					N3_C_PIN = 0;
+					N3_D_PIN = 0;
+					N3_E_PIN = 0;
+					N3_F_PIN = 0;
+					N3_G_PIN = 0;
+
+				} else if (item_index == 4) {
+
+					led_n1_number(OFF,0xFF);
+					led_n2_number(OFF,0xFF);
+
+					N3_A_PIN = 0;
+					N3_B_PIN = 0;
+					N3_C_PIN = 1;
+					N3_D_PIN = 0;
+					N3_E_PIN = 0;
+					N3_F_PIN = 0;
+					N3_G_PIN = 0;
+
+				} else if (item_index == 5) {
+
+					led_n1_number(OFF,0xFF);
+					led_n2_number(OFF,0xFF);
+
+					N3_A_PIN = 0;
+					N3_B_PIN = 0;
+					N3_C_PIN = 0;
+					N3_D_PIN = 1;
+					N3_E_PIN = 0;
+					N3_F_PIN = 0;
+					N3_G_PIN = 0;
+
+				} else if (item_index == 6) {
+
+					led_n1_number(OFF,0xFF);
+
+					N2_A_PIN = 0;
+					N2_B_PIN = 0;
+					N2_C_PIN = 0;
+					N2_D_PIN = 1;
+					N2_E_PIN = 0;
+					N2_F_PIN = 0;
+					N2_G_PIN = 0;
+
+					led_n3_number(OFF,0xFF);
+
+				} else if (item_index == 7) {
+
+					N1_A_PIN = 0;
+					N1_B_PIN = 0;
+					N1_C_PIN = 0;
+					N1_D_PIN = 1;
+					N1_E_PIN = 0;
+					N1_F_PIN = 0;
+					N1_G_PIN = 0;
+
+					led_n2_number(OFF,0xFF);
+					led_n3_number(OFF,0xFF);
+
+				} else if (item_index == 8) {
+
+					N1_A_PIN = 0;
+					N1_B_PIN = 0;
+					N1_C_PIN = 0;
+					N1_D_PIN = 0;
+					N1_E_PIN = 1;
+					N1_F_PIN = 0;
+					N1_G_PIN = 0;
+
+					led_n2_number(OFF,0xFF);
+					led_n3_number(OFF,0xFF);
+
+				} else if (item_index == 9) {
+
+					N1_A_PIN = 0;
+					N1_B_PIN = 0;
+					N1_C_PIN = 0;
+					N1_D_PIN = 0;
+					N1_E_PIN = 0;
+					N1_F_PIN = 1;
+					N1_G_PIN = 0;
+
+					led_n2_number(OFF,0xFF);
+					led_n3_number(OFF,0xFF);
+
+				} else {
+					__NOP();
+				}
+
+				break;
+
+			default:
+
+			break;
+		}
+	}
+
+	return 0;
+}
+
+void led_font_init(void)
+{
+	led_font_fun.rssi_show = rssi_show;
+	led_font_fun.unit_show = unit_show;
+	led_font_fun.led_7seg_number_show = led_7seg_number_show;
+	led_font_fun.led_7seg_text_show = led_7seg_text_show;
+	led_font_fun.led_7seg_pic_show = led_7seg_pic_show;
 }
