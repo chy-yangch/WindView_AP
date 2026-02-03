@@ -18,7 +18,7 @@ void page_thr (void);
 void page_snd (void);
 void page_dur (void);
 void page_fla (void);
-void page_brl (void);
+void page_bri (void);
 void page_unt (void);
 void page_nod (void);
 
@@ -31,7 +31,7 @@ void ui_init(void)
 	ui_fun_array[4] = page_snd;
 	ui_fun_array[5] = page_dur;
 	ui_fun_array[6] = page_fla;
-	ui_fun_array[7] = page_brl;
+	ui_fun_array[7] = page_bri;
 	ui_fun_array[8] = page_unt;
 	ui_fun_array[9] = page_nod;
 }
@@ -197,7 +197,10 @@ void page_dev (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_DEV);
+		
+		break;
 
 		case WORK:
 
@@ -215,7 +218,10 @@ void page_ad (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_AD);
+		
+		break;
 
 		case WORK:
 
@@ -233,7 +239,9 @@ void page_thr (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_THR);
+		break;
 
 		case WORK:
 
@@ -251,7 +259,10 @@ void page_snd (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_SND);
+
+		break;
 
 		case WORK:
 
@@ -269,7 +280,10 @@ void page_dur (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_DUR);
+		
+		break;
 
 		case WORK:
 
@@ -287,7 +301,10 @@ void page_fla (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_FLA);
+
+		break;
 
 		case WORK:
 
@@ -298,14 +315,18 @@ void page_fla (void)
 	}
 }
 
-void page_brl (void)
+void page_bri (void)
 {
 
 	switch(info.page_step) {
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+		
+			led_font_fun.led_7seg_text_show(ON,TEXT_BRI);
+		
+		break;
 
 		case WORK:
 
@@ -323,7 +344,10 @@ void page_unt (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_UNT);
+		
+		break;		
 
 		case WORK:
 
@@ -341,7 +365,10 @@ void page_nod (void)
 
 		case INIT:
 
-			info.page_step = WORK;
+			//info.page_step = WORK;
+			led_font_fun.led_7seg_text_show(ON,TEXT_NOD);
+		
+		break;
 
 		case WORK:
 

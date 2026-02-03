@@ -4,6 +4,7 @@
 #include "key_scan.h"
 #include "main.h"
 #include "cc1200.h"
+#include "ui.h"
 
 struct KEY_INFO Key_Info;
 void (*key_case_array[25])();
@@ -20,7 +21,7 @@ void key_page_thr(void);
 void key_page_snd(void);
 void key_page_dur(void);
 void key_page_fla(void);
-void key_page_blr(void);
+void key_page_brl(void);
 void key_page_unt(void);
 void key_page_nod(void);
 
@@ -33,7 +34,7 @@ void key_case_init(void)
 	key_case_array[4] = key_page_snd;
 	key_case_array[5] = key_page_dur;
 	key_case_array[6] = key_page_fla;
-	key_case_array[7] = key_page_blr;
+	key_case_array[7] = key_page_brl;
 	key_case_array[8] = key_page_unt;
 	key_case_array[9] = key_page_nod;
 }
@@ -174,6 +175,12 @@ void Key_Scan(void)
 //				    }
 //		}
 //	}
+
+	/* 按下任一Key立即離開休眠 */
+	if (Key_Info.key_bit) {
+
+		info.exit_sleep_flag = 1;
+	}
 }
 
 
@@ -207,11 +214,17 @@ void key_page_main (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			info.current_page = PAGE_NOD;
+			info.page_step = INIT;
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			info.current_page = PAGE_DEV;
+			info.page_step = INIT;
 
 		break;
 
@@ -249,11 +262,30 @@ void key_page_dev (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_MAIN;
+				info.page_step = INIT;
+
+			} else {
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_AD;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 
@@ -290,11 +322,31 @@ void key_page_ad (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_DEV;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_THR;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 
@@ -331,11 +383,31 @@ void key_page_thr (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_AD;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_SND;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 
@@ -372,11 +444,31 @@ void key_page_snd (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_THR;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_DUR;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 
@@ -413,11 +505,30 @@ void key_page_dur (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_SND;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_FLA;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 
@@ -454,11 +565,31 @@ void key_page_fla (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_DUR;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_BRL;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 
@@ -487,7 +618,7 @@ void key_page_fla (void)
 	}
 }
 
-void key_page_blr (void)
+void key_page_brl (void)
 {
 	switch(Key_Info.key_bit) {
 
@@ -495,12 +626,31 @@ void key_page_blr (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_FLA;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_UNT;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 		break;
 
 		case Power_KEY_BIT:
@@ -536,11 +686,31 @@ void key_page_unt (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_BRL;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_NOD;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 
@@ -577,11 +747,31 @@ void key_page_nod (void)
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_UNT;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
+
 		break;
 
 		case Down_KEY_BIT:
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_MAIN;
+				info.page_step = INIT;
+
+			} else {
+
+
+			}
 
 		break;
 

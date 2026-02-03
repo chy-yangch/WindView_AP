@@ -1752,11 +1752,11 @@ uint8_t led_7seg_text_show(uint8_t on_off,uint8_t word)
 
 				break;
 
-			case TEXT_BRL:
+			case TEXT_BRI:
 
 				led_n1_text(ON,'B');
 				led_n2_text(ON,'R');
-				led_n3_text(ON,'L');
+				led_n3_text(ON,'I');
 
 				break;
 
