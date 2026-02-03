@@ -985,9 +985,9 @@ void registerConfig(void)
 //		writeByte = 0x02;
 //		cc120xSpiWriteReg(SPI0, CC120X_MDMCFG2, &writeByte, 1);
 //	}
-	
+
 		writeByte = 0x02;
-		cc120xSpiWriteReg(SPI0, CC120X_MDMCFG2, &writeByte, 1);	
+		cc120xSpiWriteReg(SPI0, CC120X_MDMCFG2, &writeByte, 1);
 
 	// CS Init Config
 	// Carrier Sense Threshold(dB)
@@ -1027,7 +1027,7 @@ void runRX(SPI_T * spi) {
 
 }
 
-
+__IO uint8_t get_cn = 0;
 void runRX_none(SPI_T * spi_none) {
 
 	uint8_t  pkt_len = 0,rssi = 0;
@@ -1083,7 +1083,7 @@ void runRX_none(SPI_T * spi_none) {
 //			TIMER1->CMP = 64881;
 
 			memset((void*)rxBuffer, 0, sizeof(rxBuffer));
-
+			get_cn++;
 			/*CC1200產生中斷後立即進行SPI讀取會出錯,需Delay後再讀取*/
 			CLK_SysTickDelay(5000);
 //			for (i = 0;i < 255; i++)
@@ -1324,6 +1324,16 @@ void runRX_none(SPI_T * spi_none) {
 					if (!info.wr3ptx_info.wr3ptx_first_data_get_had_beeper_flag) {
 
 						info.wr3ptx_info.wr3ptx_first_data_get_had_beeper_flag = ON;
+
+						PWM0_BEEPER_SW = ON;
+						CLK_SysTickDelay(50000);
+						PWM0_BEEPER_SW = OFF;
+
+						CLK_SysTickDelay(100000);
+
+						PWM0_BEEPER_SW = ON;
+						CLK_SysTickDelay(50000);
+						PWM0_BEEPER_SW = OFF;
 
 //						//PWM_ConfigOutputChannel(PWM0, 1, 2900, 50);
 //						BP_SW_PIN = 1;

@@ -20,6 +20,8 @@ extern "C"
 #define WL_LEN_BYTE		16
 #define W1_RESET			PD15
 
+#define CC1200_TIMEOUT_SEC	8
+
 extern volatile uint8_t cc1200_work_ch;
 extern volatile uint8_t packetSemaphore;
 extern void registerConfig(void);

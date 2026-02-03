@@ -15,12 +15,27 @@ void key_case_init(void);
 void key_page_logo(void);
 void key_page_main(void);
 void key_page_dev(void);
+void key_page_ad(void);
+void key_page_thr(void);
+void key_page_snd(void);
+void key_page_dur(void);
+void key_page_fla(void);
+void key_page_blr(void);
+void key_page_unt(void);
+void key_page_nod(void);
 
 void key_case_init(void)
 {
-	key_case_array[0] = key_page_logo;
-	key_case_array[1] = key_page_main;
-	key_case_array[2] = key_page_dev;
+	key_case_array[0] = key_page_main;
+	key_case_array[1] = key_page_dev;
+	key_case_array[2] = key_page_ad;
+	key_case_array[3] = key_page_thr;
+	key_case_array[4] = key_page_snd;
+	key_case_array[5] = key_page_dur;
+	key_case_array[6] = key_page_fla;
+	key_case_array[7] = key_page_blr;
+	key_case_array[8] = key_page_unt;
+	key_case_array[9] = key_page_nod;
 }
 
 
@@ -184,7 +199,7 @@ void key_page_logo(void)
 }
 
 
-void key_page_main(void)
+void key_page_main (void)
 {
 	switch(Key_Info.key_bit) {
 
@@ -226,7 +241,335 @@ void key_page_main(void)
 
 }
 
-void key_page_dev(void)
+void key_page_dev (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_ad (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_thr (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_snd (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_dur (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_fla (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_blr (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_unt (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_nod (void)
 {
 	switch(Key_Info.key_bit) {
 

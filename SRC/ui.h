@@ -6,7 +6,6 @@ extern "C"
 
 enum ui_item {
 
-	PAGE_LOGO,
 	PAGE_MAIN,
 	PAGE_DEV,
 	PAGE_AD,

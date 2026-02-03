@@ -13,15 +13,27 @@ void ui_init(void);
 void page_logo (void);
 void page_main (void);
 void page_dev (void);
+void page_ad (void);
+void page_thr (void);
+void page_snd (void);
+void page_dur (void);
+void page_fla (void);
+void page_brl (void);
+void page_unt (void);
+void page_nod (void);
 
 void ui_init(void)
 {
-	ui_fun_array[0] = page_logo;
-	ui_fun_array[1] = page_main;
-	ui_fun_array[2] = page_dev;
-
-	info.current_page = PAGE_LOGO;
-	info.page_step = INIT;
+	ui_fun_array[0] = page_main;
+	ui_fun_array[1] = page_dev;
+	ui_fun_array[2] = page_ad;
+	ui_fun_array[3] = page_thr;
+	ui_fun_array[4] = page_snd;
+	ui_fun_array[5] = page_dur;
+	ui_fun_array[6] = page_fla;
+	ui_fun_array[7] = page_brl;
+	ui_fun_array[8] = page_unt;
+	ui_fun_array[9] = page_nod;
 }
 
 
@@ -37,14 +49,23 @@ void page_logo (void)
 
 		case WORK:
 
-			led_font_fun.led_7seg_pic_show(ON,PIC_ALL_ON,0);
+			LED_H_SW = 0;
+			LED_M_SW = 0;
+			LED_L_SW = 1;
 
-			windview_eeprom_read();
+			led_font_fun.led_7seg_pic_show(ON,PIC_ALL_ON,0);
+			CLK_SysTickDelay(500000);
+			led_font_fun.led_7seg_pic_show(OFF,PIC_ALL_ON,0);
+			CLK_SysTickDelay(500000);
+			led_font_fun.led_7seg_pic_show(ON,PIC_ALL_ON,0);
+			CLK_SysTickDelay(500000);
+			led_font_fun.led_7seg_pic_show(OFF,PIC_ALL_ON,0);
 
 			W1_RESET = 0;
 			CLK_SysTickDelay(200000);
 			W1_RESET = 1;
 
+			//cc1200_work_ch = info.wireless_ch_status = 42; // for test
 			cc1200_work_ch = info.wireless_ch_status;
 
 			SPI_Open(SPI0, SPI_MASTER, SPI_MODE_0, 8, 2000000);
@@ -63,7 +84,17 @@ void page_logo (void)
 
 				led_font_fun.led_7seg_pic_show(ON,PIC_TURN_ON_MOVE,i%3);
 				CLK_SysTickDelay(500000);
+				runRX(SPI0);
+
+				if (info.wr3ptx_info.wr3ptx_first_data_get)
+					i = 5;
 			}
+
+
+			if (info.wr3ptx_info.wr3ptx_first_data_get == OFF)
+				info.cc1200_timeout_cn = CC1200_TIMEOUT_SEC + 1;
+			else
+				info.cc1200_timeout_cn = 0;
 
 			info.current_page = PAGE_MAIN;
 			info.page_step = INIT;
@@ -74,16 +105,84 @@ void page_logo (void)
 	}
 }
 
+void draw_Rssi(void)
+{
+	uint8_t reg[20] = {0};
+
+	//Rssi距離與L700R差路約15,故修改如下
+	if (info.wr3ptx_info.rssi < 60) {
+		led_font_fun.rssi_show(ON,RSSI_LV4);
+	} else if (info.wr3ptx_info.rssi < 70) {
+		led_font_fun.rssi_show(ON,RSSI_LV3);
+	} else if (info.wr3ptx_info.rssi < 80) {
+		led_font_fun.rssi_show(ON,RSSI_LV2);
+	} else {
+		led_font_fun.rssi_show(ON,RSSI_LV1);
+		__NOP();
+	}
+}
+
+uint32_t wind_speed_unit_calculate(uint8_t unit,uint32_t wind_speed_c)
+{
+	//單位轉換參考資料
+	//https://zh.wikipedia.org/wiki/%E9%80%9F%E7%8E%87
+	float wind_speed_reg;
+
+	if (unit == UNIT_KM) {
+
+			wind_speed_reg = wind_speed_c;
+			wind_speed_reg = wind_speed_reg;
+
+	} else if (unit == UNIT_MS) {
+
+			wind_speed_reg = wind_speed_c;
+			wind_speed_reg = wind_speed_reg * 0.277778f;
+
+	} else if (unit == UNIT_MPH) {
+
+			/* km/hr -> ms*/
+			wind_speed_reg = wind_speed_c;
+			wind_speed_reg = wind_speed_reg * 0.621371f;
+
+	} else {
+		__NOP();
+	}
+
+	return wind_speed_reg;
+}
+
+
 void page_main (void)
 {
+	uint32_t wind_speed_reg = 0;
 
 	switch(info.page_step) {
 
 		case INIT:
 
+			info.page_step = WORK;
 
 		case WORK:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC) {
+
+				led_font_fun.led_7seg_pic_show(ON,PIC_NO_LINK,0);
+
+			} else {
+
+				draw_Rssi();
+
+				led_font_fun.unit_show(ON,info.windv_unit);
+
+				wind_speed_reg = wind_speed_unit_calculate(info.windv_unit,info.wr3ptx_info.wind_speed);
+
+				led_font_fun.led_7seg_number_show(ON,wind_speed_reg);
+
+//			wind_speed_reg = wind_speed_unit_calculate(info.wind_speed_unit_status,info.wr3ptx_info.wind_speed);
+//			sprintf((char *)value, "%d.%d",(uint16_t) wind_speed_reg / 10,(uint16_t)wind_speed_reg % 10);
+
+
+			}
 
 		default:
 			__NOP();
@@ -98,6 +197,7 @@ void page_dev (void)
 
 		case INIT:
 
+			info.page_step = WORK;
 
 		case WORK:
 
@@ -108,5 +208,146 @@ void page_dev (void)
 	}
 }
 
+void page_ad (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
 
 
+		default:
+			__NOP();
+
+	}
+}
+
+void page_thr (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
+
+
+		default:
+			__NOP();
+
+	}
+}
+
+void page_snd (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
+
+
+		default:
+			__NOP();
+
+	}
+}
+
+void page_dur (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
+
+
+		default:
+			__NOP();
+
+	}
+}
+
+void page_fla (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
+
+
+		default:
+			__NOP();
+
+	}
+}
+
+void page_brl (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
+
+
+		default:
+			__NOP();
+
+	}
+}
+
+void page_unt (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
+
+
+		default:
+			__NOP();
+
+	}
+}
+
+void page_nod (void)
+{
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			info.page_step = WORK;
+
+		case WORK:
+
+
+		default:
+			__NOP();
+
+	}
+}

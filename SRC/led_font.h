@@ -65,13 +65,13 @@ enum rssi_level {
 	RSSI_LV4,
 };
 
-enum unit_typel {
+//enum unit_typel {
 
-	UNIT_MS,
-	UNIT_KM,
-	UNIT_MP,
+//	UNIT_MS,
+//	UNIT_KM,
+//	UNIT_MP,
 
-};
+//};
 
 enum led_7seg_text_item {
 
@@ -93,8 +93,6 @@ enum led_7seg_pic_item {
 	PIC_TURN_ON_MOVE,
 	PIC_NO_LINK,
 	PIC_RESET_ROLL,
-
-
 
 };
 

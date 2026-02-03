@@ -131,9 +131,39 @@ struct RX_INFO {
 
 };
 
+enum windv_type_item{
+
+	TYPE_WR3P,
+	TYPE_WL21,
+	TYPE_WR3P_EX,
+};
+
+enum windv_unit_item{
+	
+	UNIT_MPH,
+	UNIT_KM,
+	UNIT_MS,
+};
+
+enum windv_light_level_item{
+	
+	LIGHT_HI,
+	LIGHT_NOR,
+	LIGHT_LO,
+};
+
+enum windv_mode_item{
+	
+	MODE_DEF,
+	MODE_U01,
+	MODE_U02,
+	MODE_SPD,
+};
+
 extern __IO uint8_t cc1200_get_flag;
 
 extern struct RX_INFO info;
 
 extern void windview_eeprom_read(void);
+extern void windview_eeprom_default(void);
 

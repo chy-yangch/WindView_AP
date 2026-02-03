@@ -71,7 +71,7 @@ rfStatus_t trx8BitRegAccess(SPI_T *spi, uint8_t accessType, uint8_t addrByte, ui
 	while(SPI_IS_BUSY(spi));	//¥d¦í
 
 	readValue=SPI_READ_RX(spi);   //cc1200 status
-	
+
 	if(accessType & RADIO_READ_ACCESS)
 	{
 		if( accessType & RADIO_BURST_ACCESS)
@@ -151,7 +151,7 @@ rfStatus_t trx16BitRegAccess(SPI_T *spi, uint8_t accessType, uint8_t extAddr, ui
 
   SPI_WRITE_TX(spi, regAddr);
 //				while(SPI_IS_BUSY(spi));
-//				*pData=SPI_READ_RX(spi);	
+//				*pData=SPI_READ_RX(spi);
 //  SPI_TRIGGER(spi);
 //	SPI_ENABLE(spi);
 	while(SPI_IS_BUSY(spi));

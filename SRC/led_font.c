@@ -1537,7 +1537,7 @@ uint8_t unit_show(uint8_t on_off,uint8_t unit_type)
 		KM_PIN = 1;
 		MS_PIN = 0;
 
-	} else if (unit_type == UNIT_MP) {
+	} else if (unit_type == UNIT_MPH) {
 
 		MP_PIN = 1;
 		KM_PIN = 0;

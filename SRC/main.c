@@ -21,6 +21,9 @@ void LXT_Enable(void);
 void function_init(void);
 void mcu_idle(void);
 
+void windview_eeprom_read(void);
+void windview_eeprom_default(void);
+
 __IO uint8_t cc1200_get_flag = 0;
 struct RX_INFO info;
 
@@ -107,30 +110,30 @@ void SYS_Init(void)
 
 
 	TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 10);
-	//TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 1);
+	TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 1);
 	//TIMER_Open(TIMER2, TIMER_PERIODIC_MODE, 1);
 	//TIMER_Open(TIMER3, TIMER_PERIODIC_MODE, 10);
 
 	/* Enable timer wake up system */
 	TIMER_EnableWakeup(TIMER0);
-	//TIMER_EnableWakeup(TIMER1);
+	TIMER_EnableWakeup(TIMER1);
 	//TIMER_EnableWakeup(TIMER3);
 
 	/* Enable Timer0 interrupt */
 	TIMER_EnableInt(TIMER0);
-	//TIMER_EnableInt(TIMER1);
+	TIMER_EnableInt(TIMER1);
 	//TIMER_EnableInt(TIMER2);
 	//TIMER_EnableInt(TIMER3);
 
 	/* Enable Timer0 ~ Timer3 NVIC */
 	NVIC_EnableIRQ(TMR0_IRQn);
-	//NVIC_EnableIRQ(TMR1_IRQn);
+	NVIC_EnableIRQ(TMR1_IRQn);
 	//NVIC_EnableIRQ(TMR2_IRQn);
 	//NVIC_EnableIRQ(TMR3_IRQn);
 
 	/* Start Timer0 ~ Timer3 counting */
 	TIMER_Start(TIMER0);
-	//TIMER_Start(TIMER1);
+	TIMER_Start(TIMER1);
 	//TIMER_Start(TIMER2);
 	//TIMER_Start(TIMER3);
 
@@ -262,7 +265,7 @@ void io_init(void)
 	PC->DOUT 		=	0x00005FFF;
 	PC->DATMSK 	=	0x00000000;		//Data Output Write Mask
 	PC->SLEWCTL 	=	0x00000000;		//High Slew Rate Control Register
-	PC->PUSEL 		=	0x00000040;
+	PC->PUSEL 		=	0x00000000;
 
 	// PD15 	W1_RESET		IO/O
 	// PD14 	X				IO/O - only Input
@@ -286,7 +289,7 @@ void io_init(void)
 	PD->DOUT 		=	0x00000000;
 	PD->DATMSK 	=	0x00000000;		//Data Output Write Mask
 	PD->SLEWCTL 	=	0x00000000;		//High Slew Rate Control Register
-	PD->PUSEL 		=	0x00000001;
+	PD->PUSEL 		=	0x00000000;
 
 	// PE15	X				IO/O
 	// PE14 	X				IO/O
@@ -371,13 +374,15 @@ void TMR0_IRQHandler(void)
 
 void TMR1_IRQHandler(void)
 {
-	/* 每秒10次 */
+	/* 每秒1次 */
 
 	/* Clean Timer1 Interrupt Flag */
 	TIMER_ClearIntFlag(TIMER1);
-	/* Clean TIMER0 Wake up Flag */
+	/* Clean TIMER1 Wake up Flag */
 	TIMER_ClearWakeupFlag(TIMER1);
 
+	info.cc1200_timeout_cn++;
+	info.exit_sleep_flag = 1;
 }
 
 void function_init(void)
@@ -385,6 +390,16 @@ void function_init(void)
 	ui_init();
 	key_case_init();
 	led_font_init();
+
+	//windview_eeprom_default();
+	windview_eeprom_read();
+
+	Key_Info.key_st[UP_KEY_HOLD] = ON;
+	Key_Info.key_st[Down_KEY_HOLD] = ON;
+	Key_Info.key_st[Power_KEY_HOLD] = ON;
+	Key_Info.key_st[Enter_KEY_HOLD] = ON;
+	Key_Info.key_st[Cancel_KEY_HOLD] = ON;
+
 }
 
 void windview_eeprom_read(void)
@@ -415,6 +430,8 @@ void GPA_IRQHandler(void)
 
 	packetSemaphore = ISR_ACTION_REQUIRED;
 
+	info.exit_sleep_flag = 1;
+
 	/* 提早10ms,其中5ms對CC1200設定
 	 * 移到中斷處計算,才不會因為CC1200 Timeout
 	 * 因執行主程式造成時間計算上的誤差
@@ -442,7 +459,29 @@ void mcu_idle(void)
 {
 	info.exit_sleep_flag = 0;
 
-	while(!info.exit_sleep_flag) {	
-		CLK_Idle();
+	while(!info.exit_sleep_flag) {
+		//CLK_Idle();
+		//進入wfi之後,即時watch變數無法更新
 	}
+}
+
+void windview_eeprom_default(void)
+{
+	uint8_t i = 0;
+	int32_t reg_int32 = 0;
+
+	CLK_SysTickDelay(5000);
+
+	eerom2402_w_uint8(EEP_WINDV_TYPE,TYPE_WR3P);
+	eerom2402_w_uint8(EEP_WINDV_AD,40);
+	eerom2402_w_uint8(EEP_WINDV_UNIT,UNIT_MS);
+	eerom2402_w_uint8(EEP_WINDV_THR,18);
+	eerom2402_w_uint8(EEP_WINDV_SOUND_SW,ON);
+	eerom2402_w_uint8(EEP_WINDV_SOUND_RESET_TIME,10);
+	eerom2402_w_uint8(EEP_WINDV_LIGHT_LEVEL,LIGHT_HI);
+	eerom2402_w_uint8(EEP_WINDV_MODE,MODE_DEF);
+
+	CLK_SysTickDelay(5000);
+
+	windview_eeprom_read();
 }
