@@ -401,6 +401,8 @@ void function_init(void)
 	Key_Info.key_st[Enter_KEY_HOLD] = ON;
 	Key_Info.key_st[Cancel_KEY_HOLD] = ON;
 
+	Key_Info.had_turn_on_pkey_release = OFF;
+	info.power_on = ON;
 }
 
 void windview_eeprom_read(void)
@@ -460,9 +462,25 @@ void mcu_idle(void)
 {
 	info.exit_sleep_flag = 0;
 
-	while(!info.exit_sleep_flag) {
-		//CLK_Idle();
-		//進入wfi之後,即時watch變數無法更新
+	if (info.power_on == OFF) {
+
+		LED_H_SW = 0;
+		LED_M_SW = 0;
+		LED_L_SW = 0;
+
+		while (info.power_on == OFF) {
+
+			//CLK_Idle();
+			if (Key_Info.key_bit & Power_KEY_BIT)
+					NVIC_SystemReset();
+		}
+
+	} else {
+
+		while(!info.exit_sleep_flag) {
+			//CLK_Idle();
+			//進入wfi之後,即時watch變數無法更新
+		}
 	}
 }
 

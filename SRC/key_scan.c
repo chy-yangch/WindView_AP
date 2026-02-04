@@ -105,6 +105,7 @@ void Key_Scan(void)
 			} else {
 				Key_Info.key_hold_cn[Power_KEY_HOLD]++;
 			}
+
 		} else {
 			Key_Info.key_lock_bit &= ~Power_KEY_BIT;
 
@@ -113,6 +114,8 @@ void Key_Scan(void)
 
 			Key_Info.key_hold_cn[Power_KEY_HOLD] = 0;
 		}
+
+
 	}
 
 
@@ -158,11 +161,12 @@ void Key_Scan(void)
 	}
 
 
-//	if (Key_Info.had_turn_on_pkey_release) {
+	if (Key_Info.had_turn_on_pkey_release) {
 
-//		/* Power key hold over 2.5 Sec for power off */
-//		if ((Key_Info.key_hold_cn[Power_KEY_HOLD] > 25 ) && (Power_KEY_PIN) ){
+		/* Power key hold over 2.5 Sec for power off */
+		if ((Key_Info.key_hold_cn[Power_KEY_HOLD] > 25 ) && (POW_KEY) ) {
 
+			info.power_on = OFF;
 
 //				if ((info.current_page == MAIN_Page) || (info.current_page == AVG_MAX_Page) ||
 //				    (info.current_page == CHART_Page) || (info.current_page == HISTORY_1_Page) ||
@@ -174,8 +178,8 @@ void Key_Scan(void)
 
 //					    __NOP();
 //				    }
-//		}
-//	}
+		}
+	}
 
 	/* 按下任一Key立即離開休眠 */
 	if (Key_Info.key_bit) {

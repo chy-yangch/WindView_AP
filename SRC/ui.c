@@ -172,6 +172,7 @@ void page_main (void)
 
 			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC) {
 
+				led_font_fun.rssi_show(OFF,0);
 				led_font_fun.led_7seg_pic_show(ON,PIC_NO_LINK,0);
 
 			} else {
@@ -202,13 +203,22 @@ void page_dev (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_DEV);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
+
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
 
 			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
 
@@ -266,13 +276,23 @@ void page_ad (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_AD);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+
 		break;
 
 		case WORK:
+
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
 
 
 		default:
@@ -288,14 +308,25 @@ void page_thr (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_THR);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+
 		break;
 
 		case WORK:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
 
 		default:
 			__NOP();
@@ -310,14 +341,25 @@ void page_snd (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_SND);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+
 		break;
 
 		case WORK:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
 
 		default:
 			__NOP();
@@ -332,14 +374,25 @@ void page_dur (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_DUR);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+
 		break;
 
 		case WORK:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
 
 		default:
 			__NOP();
@@ -354,13 +407,25 @@ void page_fla (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_FLA);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+
 		break;
 
 		case WORK:
+
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
 
 
 		default:
@@ -376,14 +441,24 @@ void page_bri (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_BRI);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
 
 		default:
 			__NOP();
@@ -398,14 +473,25 @@ void page_unt (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_UNT);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+
 		break;
 
 		case WORK:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
 
 		default:
 			__NOP();
@@ -420,13 +506,25 @@ void page_nod (void)
 
 		case INIT:
 
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
 			led_font_fun.led_7seg_text_show(ON,TEXT_NOD);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			draw_Rssi();
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+
 		break;
 
 		case WORK:
+
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
 
 
 		default:

@@ -160,6 +160,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>info</ItemText>
         </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>info.power_on</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
