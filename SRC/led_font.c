@@ -1776,6 +1776,14 @@ uint8_t led_7seg_text_show(uint8_t on_off,uint8_t word)
 
 				break;
 
+			case TEXT_YES:
+
+				led_n1_text(ON,'Y');
+				led_n2_text(ON,'E');
+				led_n3_text(ON,'S');
+
+				break;
+
 			default:
 
 				DOT_PIN = 0;
@@ -2117,4 +2125,7 @@ void led_font_init(void)
 	led_font_fun.led_7seg_number_show = led_7seg_number_show;
 	led_font_fun.led_7seg_text_show = led_7seg_text_show;
 	led_font_fun.led_7seg_pic_show = led_7seg_pic_show;
+	led_font_fun.led_n1_text = led_n1_text;
+	led_font_fun.led_n2_text = led_n2_text;
+	led_font_fun.led_n3_text = led_n3_text;
 }

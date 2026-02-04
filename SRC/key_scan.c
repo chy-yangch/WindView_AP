@@ -5,6 +5,7 @@
 #include "main.h"
 #include "cc1200.h"
 #include "ui.h"
+#include "24LC02.h"
 
 struct KEY_INFO Key_Info;
 void (*key_case_array[25])();
@@ -21,7 +22,7 @@ void key_page_thr(void);
 void key_page_snd(void);
 void key_page_dur(void);
 void key_page_fla(void);
-void key_page_brl(void);
+void key_page_bri(void);
 void key_page_unt(void);
 void key_page_nod(void);
 
@@ -34,7 +35,7 @@ void key_case_init(void)
 	key_case_array[4] = key_page_snd;
 	key_case_array[5] = key_page_dur;
 	key_case_array[6] = key_page_fla;
-	key_case_array[7] = key_page_brl;
+	key_case_array[7] = key_page_bri;
 	key_case_array[8] = key_page_unt;
 	key_case_array[9] = key_page_nod;
 }
@@ -256,6 +257,18 @@ void key_page_main (void)
 
 void key_page_dev (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -269,6 +282,14 @@ void key_page_dev (void)
 
 			} else {
 
+				if (ui_select.page_dev_select.dev_type == DEV_WR3)
+					ui_select.page_dev_select.dev_type = DEV_WR3_EX;
+				else if (ui_select.page_dev_select.dev_type == DEV_WL21)
+					ui_select.page_dev_select.dev_type = DEV_WR3;
+				else if (ui_select.page_dev_select.dev_type == DEV_WR3_EX)
+					ui_select.page_dev_select.dev_type = DEV_WL21;
+				else
+					__NOP();
 			}
 
 		break;
@@ -284,7 +305,14 @@ void key_page_dev (void)
 
 			} else {
 
-
+				if (ui_select.page_dev_select.dev_type == DEV_WR3)
+					ui_select.page_dev_select.dev_type = DEV_WL21;
+				else if (ui_select.page_dev_select.dev_type == DEV_WL21)
+					ui_select.page_dev_select.dev_type = DEV_WR3_EX;
+				else if (ui_select.page_dev_select.dev_type == DEV_WR3_EX)
+					ui_select.page_dev_select.dev_type = DEV_WR3;
+				else
+					__NOP();
 			}
 
 		break;
@@ -299,15 +327,54 @@ void key_page_dev (void)
 
 			Key_Info.key_bit &= ~Enter_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.page_step = WORK;
+				ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+				ui_select.page_dev_select.dev_type = DEV_WR3;
+
+
+			} else {
+
+				if(ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+					//下述二行順序需注意
+					ui_select.ui_pause_100ms_cnt = 0;
+					ui_select.page_dev_select.sub_screen_index = ITEM_CHECK;
+
+					eerom2402_w_uint8(EEP_WINDV_TYPE,ui_select.page_dev_select.dev_type);
+
+					windview_eeprom_read();
+
+				} else {
+					__NOP();
+				}
+			}
+
 		break;
 
 		case Cancel_KEY_BIT:
 
 			Key_Info.key_bit &= ~Cancel_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+					__NOP();
+			} else {
+
+				if(ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+					info.page_step = INIT;
+
+				} else {
+					__NOP();
+				}
+			}
+
 		break;
 
 		default:
+
 			Key_Info.key_bit = 0;
 			__NOP();
 
@@ -316,6 +383,18 @@ void key_page_dev (void)
 
 void key_page_ad (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -377,6 +456,18 @@ void key_page_ad (void)
 
 void key_page_thr (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -438,6 +529,18 @@ void key_page_thr (void)
 
 void key_page_snd (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -499,6 +602,18 @@ void key_page_snd (void)
 
 void key_page_dur (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -559,6 +674,18 @@ void key_page_dur (void)
 
 void key_page_fla (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -618,8 +745,20 @@ void key_page_fla (void)
 	}
 }
 
-void key_page_brl (void)
+void key_page_bri (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -680,6 +819,18 @@ void key_page_brl (void)
 
 void key_page_unt (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
@@ -741,6 +892,18 @@ void key_page_unt (void)
 
 void key_page_nod (void)
 {
+	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+		Key_Info.key_bit &= ~UP_KEY_BIT;
+		Key_Info.key_bit &= ~Down_KEY_BIT;
+		Key_Info.key_bit &= ~Power_KEY_BIT;
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+		Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+	} else {
+		__NOP();
+	}
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:

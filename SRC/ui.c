@@ -22,6 +22,10 @@ void page_bri (void);
 void page_unt (void);
 void page_nod (void);
 
+
+
+struct UI_SELECT ui_select;
+
 void ui_init(void)
 {
 	ui_fun_array[0] = page_main;
@@ -98,6 +102,7 @@ void page_logo (void)
 
 			info.current_page = PAGE_MAIN;
 			info.page_step = INIT;
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 
 		default:
 			__NOP();
@@ -161,6 +166,7 @@ void page_main (void)
 		case INIT:
 
 			info.page_step = WORK;
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 
 		case WORK:
 
@@ -181,7 +187,6 @@ void page_main (void)
 //			wind_speed_reg = wind_speed_unit_calculate(info.wind_speed_unit_status,info.wr3ptx_info.wind_speed);
 //			sprintf((char *)value, "%d.%d",(uint16_t) wind_speed_reg / 10,(uint16_t)wind_speed_reg % 10);
 
-
 			}
 
 		default:
@@ -197,13 +202,56 @@ void page_dev (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_DEV);
-		
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
 
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+				if (ui_select.page_dev_select.dev_type == DEV_WR3) {
+
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(OFF,0);
+					led_font_fun.led_n3_text(ON,'A');
+
+				} else if (ui_select.page_dev_select.dev_type == DEV_WL21) {
+
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(OFF,0);
+					led_font_fun.led_n3_text(ON,'B');
+
+				} else if (ui_select.page_dev_select.dev_type == DEV_WR3_EX) {
+
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(OFF,0);
+					led_font_fun.led_n3_text(ON,'C');
+
+				} else {
+					__NOP();
+				}
+
+				led_font_fun.unit_show(ON,info.windv_unit);
+				draw_Rssi();
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
 
 		default:
 			__NOP();
@@ -218,9 +266,10 @@ void page_ad (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_AD);
-		
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
@@ -239,8 +288,10 @@ void page_thr (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_THR);
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
@@ -259,9 +310,10 @@ void page_snd (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_SND);
-
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
@@ -280,9 +332,10 @@ void page_dur (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_DUR);
-		
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
@@ -301,9 +354,10 @@ void page_fla (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_FLA);
-
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
@@ -322,10 +376,10 @@ void page_bri (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
-		
 			led_font_fun.led_7seg_text_show(ON,TEXT_BRI);
-		
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
@@ -344,10 +398,11 @@ void page_unt (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_UNT);
-		
-		break;		
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+		break;
 
 		case WORK:
 
@@ -365,9 +420,10 @@ void page_nod (void)
 
 		case INIT:
 
-			//info.page_step = WORK;
 			led_font_fun.led_7seg_text_show(ON,TEXT_NOD);
-		
+			led_font_fun.unit_show(ON,info.windv_unit);
+			draw_Rssi();
+			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:

@@ -370,6 +370,7 @@ void TMR0_IRQHandler(void)
 
 	Key_Scan();
 
+	ui_select.ui_pause_100ms_cnt++;
 }
 
 void TMR1_IRQHandler(void)

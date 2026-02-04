@@ -19,6 +19,9 @@ struct LED_Font{
 	uint8_t (*led_7seg_number_show)(uint8_t on_off,uint16_t value);
 	uint8_t (*led_7seg_text_show)(uint8_t on_off,uint8_t word);
 	uint8_t (*led_7seg_pic_show)(uint8_t on_off,uint8_t pic_item,uint8_t item_index);
+	uint8_t (*led_n1_text)(uint8_t on_off,uint8_t text);
+	uint8_t (*led_n2_text)(uint8_t on_off,uint8_t text);
+	uint8_t (*led_n3_text)(uint8_t on_off,uint8_t text);
 
 };
 
@@ -84,6 +87,7 @@ enum led_7seg_text_item {
 	TEXT_BRI,
 	TEXT_UNT,
 	TEXT_NOD,
+	TEXT_YES,
 
 };
 

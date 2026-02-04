@@ -4,12 +4,17 @@ extern "C"
 {
 #endif
 
-#define POW_KEY			PC2
-#define CANCEL_KEY		PC5
-#define CONFIRM_KEY		PF6
-#define UP_KEY	  		PC4
-#define DOWN_KEY  		PC3
+//#define POW_KEY			PC2
+//#define CANCEL_KEY		PC5
+//#define CONFIRM_KEY		PF6
+//#define UP_KEY	  		PC4
+//#define DOWN_KEY  		PC3
 
+#define POW_KEY			PC2
+#define DOWN_KEY			PC5
+#define UP_KEY			PF6
+#define CONFIRM_KEY	  	PC4
+#define CANCEL_KEY  		PC3
 
 #define Power_KEY_BIT		BIT0
 #define Cancel_KEY_BIT		BIT1
@@ -23,11 +28,11 @@ extern "C"
 
 extern enum {
 
+	Power_KEY_HOLD,
+	Cancel_KEY_HOLD,
+	Enter_KEY_HOLD,	
 	UP_KEY_HOLD,
 	Down_KEY_HOLD,
-	Power_KEY_HOLD,
-	Enter_KEY_HOLD,
-	Cancel_KEY_HOLD
 
 } key_hold;
 
@@ -45,7 +50,7 @@ struct KEY_INFO {
 	__IO uint8_t key_blinking_flag;
 	__IO uint8_t key_blinking_cn;
 	__IO uint32_t register_value[10];
-	__IO enum  {NO,YES} yes_no;
+	__IO uint8_t yes_no;
 	__IO uint8_t had_turn_on_pkey_release;
 	
 	__IO uint8_t fast_setting_mode;
