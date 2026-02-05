@@ -56,14 +56,23 @@ void Key_Scan(void)
 
 
 			} else {
+
 				Key_Info.key_hold_cn[UP_KEY_HOLD]++;
+
+				if ((info.current_page == PAGE_AD) && (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT)) {
+
+					if(Key_Info.key_hold_cn[UP_KEY_HOLD] >= FAST_SETTING_HOLD_TIME) {
+						Key_Info.key_bit |= UP_KEY_BIT;
+						Key_Info.fast_setting_mode = ON;
+					}
+				}
 			}
 
 		} else {
 
 			Key_Info.key_lock_bit &= ~UP_KEY_BIT;
 			Key_Info.key_hold_cn[UP_KEY_HOLD] = 0;
-			//Key_Info.fast_setting_mode = OFF;
+			Key_Info.fast_setting_mode = OFF;
 		}
 	}
 
@@ -80,13 +89,22 @@ void Key_Scan(void)
 
 
 			} else {
+
 				Key_Info.key_hold_cn[Down_KEY_HOLD]++;
+
+				if ((info.current_page == PAGE_AD) && (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT)) {
+
+					if(Key_Info.key_hold_cn[Down_KEY_HOLD] >= FAST_SETTING_HOLD_TIME) {
+						Key_Info.key_bit |= Down_KEY_BIT;
+						Key_Info.fast_setting_mode = ON;
+					}
+				}
 			}
 		} else {
 
 			Key_Info.key_lock_bit &= ~Down_KEY_BIT;
 			Key_Info.key_hold_cn[Down_KEY_HOLD] = 0;
-			//Key_Info.fast_setting_mode = OFF;
+			Key_Info.fast_setting_mode = OFF;
 		}
 	}
 
@@ -412,6 +430,26 @@ void key_page_ad (void)
 
 			} else {
 
+				ui_select.page_ad_select.ad--;
+
+				if (info.windv_type == DEV_WR3) {
+
+					if (ui_select.page_ad_select.ad < 3)
+						ui_select.page_ad_select.ad = 80;
+					else
+						__NOP();
+
+				} else if (info.windv_type == DEV_WL21) {
+
+					if (ui_select.page_ad_select.ad < 1)
+						ui_select.page_ad_select.ad = 80;
+					else
+						__NOP();
+
+				} else if (info.windv_type == DEV_WR3_EX) {
+
+					__NOP();
+				}
 
 			}
 
@@ -429,6 +467,27 @@ void key_page_ad (void)
 			} else {
 
 
+				ui_select.page_ad_select.ad++;
+
+				if (info.windv_type == DEV_WR3) {
+
+					if (ui_select.page_ad_select.ad > 80)
+						ui_select.page_ad_select.ad = 3;
+					else
+						__NOP();
+
+				} else if (info.windv_type == DEV_WL21) {
+
+					if (ui_select.page_ad_select.ad > 80)
+						ui_select.page_ad_select.ad = 1;
+					else
+						__NOP();
+
+				} else if (info.windv_type == DEV_WR3_EX) {
+
+					__NOP();
+				}
+
 			}
 
 		break;
@@ -443,11 +502,49 @@ void key_page_ad (void)
 
 			Key_Info.key_bit &= ~Enter_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.page_step = WORK;
+				ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+				ui_select.page_ad_select.ad = 40;
+
+
+			} else {
+
+				if(ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+					//下述二行順序需注意
+					ui_select.ui_pause_100ms_cnt = 0;
+					ui_select.page_dev_select.sub_screen_index = ITEM_CHECK;
+
+					eerom2402_w_uint8(EEP_WINDV_AD,ui_select.page_ad_select.ad);
+
+					windview_eeprom_read();
+
+				} else {
+					__NOP();
+				}
+			}
+
 		break;
 
 		case Cancel_KEY_BIT:
 
 			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+					__NOP();
+			} else {
+
+				if(ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+					info.page_step = INIT;
+
+				} else {
+					__NOP();
+				}
+			}
 
 		break;
 

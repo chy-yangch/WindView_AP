@@ -70,7 +70,7 @@ void page_logo (void)
 			W1_RESET = 1;
 
 			//cc1200_work_ch = info.wireless_ch_status = 42; // for test
-			cc1200_work_ch = info.wireless_ch_status;
+			cc1200_work_ch = info.windv_ad;
 
 			SPI_Open(SPI0, SPI_MASTER, SPI_MODE_0, 8, 2000000);
 			/* Disable auto SS function, control SS signal manually. */
@@ -294,6 +294,30 @@ void page_ad (void)
 			else
 				draw_Rssi();
 
+			led_font_fun.unit_show(ON,info.windv_unit);
+
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+				led_font_fun.led_n1_number(OFF,0);
+				led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ad / 10);
+				led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ad % 10);
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+					cc1200_reset_setting(info.windv_ad);
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
 
 		default:
 			__NOP();
@@ -328,6 +352,25 @@ void page_thr (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
+
 		default:
 			__NOP();
 
@@ -360,6 +403,26 @@ void page_snd (void)
 				draw_Rssi();
 
 			led_font_fun.unit_show(ON,info.windv_unit);
+
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
+
 
 		default:
 			__NOP();
@@ -394,6 +457,26 @@ void page_dur (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
+
+
 		default:
 			__NOP();
 
@@ -426,6 +509,25 @@ void page_fla (void)
 				draw_Rssi();
 
 			led_font_fun.unit_show(ON,info.windv_unit);
+
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
 
 
 		default:
@@ -460,6 +562,25 @@ void page_bri (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
+
 		default:
 			__NOP();
 
@@ -492,6 +613,25 @@ void page_unt (void)
 				draw_Rssi();
 
 			led_font_fun.unit_show(ON,info.windv_unit);
+
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
 
 		default:
 			__NOP();
@@ -526,6 +666,24 @@ void page_nod (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
+			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+
+
+
+			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
+
+					info.page_step = INIT;
+
+				} else {
+
+					led_font_fun.led_7seg_text_show(ON,TEXT_YES);
+				}
+
+			} else {
+				__NOP();
+			}
 
 		default:
 			__NOP();

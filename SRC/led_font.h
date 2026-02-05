@@ -22,7 +22,9 @@ struct LED_Font{
 	uint8_t (*led_n1_text)(uint8_t on_off,uint8_t text);
 	uint8_t (*led_n2_text)(uint8_t on_off,uint8_t text);
 	uint8_t (*led_n3_text)(uint8_t on_off,uint8_t text);
-
+	uint8_t (*led_n1_number)(uint8_t on_off,uint8_t no);
+	uint8_t (*led_n2_number)(uint8_t on_off,uint8_t no);
+	uint8_t (*led_n3_number)(uint8_t on_off,uint8_t no);
 };
 
 extern void led_font_init(void);

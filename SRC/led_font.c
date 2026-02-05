@@ -2128,4 +2128,7 @@ void led_font_init(void)
 	led_font_fun.led_n1_text = led_n1_text;
 	led_font_fun.led_n2_text = led_n2_text;
 	led_font_fun.led_n3_text = led_n3_text;
+	led_font_fun.led_n1_number = led_n1_number;
+	led_font_fun.led_n2_number = led_n2_number;
+	led_font_fun.led_n3_number = led_n3_number;
 }

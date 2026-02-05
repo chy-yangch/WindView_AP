@@ -34,3 +34,4 @@ extern __IO uint8_t txBuffer[PKTLEN+1];
 
 extern volatile uint32_t freq_offset;
 
+extern void cc1200_reset_setting(uint8_t ad);

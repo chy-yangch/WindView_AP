@@ -47,9 +47,18 @@ struct PAGE_DEV_SELECT
 	__IO uint8_t yes_no;
 };
 
+struct PAGE_AD_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t ad;
+	__IO uint8_t yes_no;
+};
+
 struct UI_SELECT
 {
 	struct PAGE_DEV_SELECT page_dev_select;
+	struct PAGE_AD_SELECT page_ad_select;
+
 	uint16_t  ui_pause_100ms_cnt;
 
 };

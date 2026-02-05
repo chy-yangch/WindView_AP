@@ -1174,7 +1174,7 @@ void runRX_none(SPI_T * spi_none) {
 				/* 沒有綁定時,如果不是相同頻道時放棄該筆資料 */
 				ch_check = (rxBuffer[4] & 0x7F);
 
-				if ((ch_check == info.wireless_ch_status) && (reg_u8[2] == 'A') && (reg_u8[3] == 'T'))
+				if ((ch_check == info.windv_ad) && (reg_u8[2] == 'A') && (reg_u8[3] == 'T'))
 					sn_check_ok = ON;
 				else
 					sn_check_ok = OFF;
@@ -1577,5 +1577,31 @@ void cc1200_wake_up(void)
        // trxSpiCmdStrobe(SPI0, CC120X_SIDLE);
         //trxSpiCmdStrobe(SPI0, CC120X_SFTX);
         //trxSpiCmdStrobe(SPI0, CC120X_SFRX);
+}
+
+
+void cc1200_reset_setting(uint8_t ad)
+{
+
+	W1_RESET = 0;
+	CLK_SysTickDelay(200000);
+	W1_RESET = 1;
+
+	//cc1200_work_ch = info.wireless_ch_status = 42; // for test
+	cc1200_work_ch = ad;
+
+	SPI_Open(SPI0, SPI_MASTER, SPI_MODE_0, 8, 2000000);
+	/* Disable auto SS function, control SS signal manually. */
+	SPI_DisableAutoSS(SPI0);
+	SPI_SET_SS_LOW(SPI0);
+	registerConfig();
+	while (!SPI_GET_RX_FIFO_EMPTY_FLAG(SPI0))
+		SPI_READ_RX(SPI0);
+
+	SPI_ClearIntFlag(SPI0,SPI_FIFO_RXOV_INT_MASK);
+
+	info.wr3ptx_info.wr3ptx_first_data_get_had_beeper_flag = OFF;
+	info.wr3ptx_info.wr3ptx_first_data_get = OFF;
+
 }
 

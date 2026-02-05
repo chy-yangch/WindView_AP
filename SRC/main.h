@@ -96,7 +96,7 @@ struct RX_INFO {
 	__IO current_page;
 	__IO enum  {INIT,WORK} page_step;
 
-	__IO uint8_t wireless_ch_status;
+//	__IO uint8_t wireless_ch_status;
 	__IO uint8_t tx_sn_binding_status;
 	
 	__IO uint8_t power_on;
