@@ -166,7 +166,7 @@ void page_main (void)
 		case INIT:
 
 			info.page_step = WORK;
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_main_select.sub_screen_index = ITEM_SELECT;
 
 		case WORK:
 
@@ -283,7 +283,7 @@ void page_ad (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_AD);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_ad_select.sub_screen_index = ITEM_SELECT;
 
 		break;
 
@@ -296,13 +296,13 @@ void page_ad (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_ad_select.sub_screen_index == ITEM_SELECT) {
 
 				led_font_fun.led_n1_number(OFF,0);
 				led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ad / 10);
 				led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ad % 10);
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+			} else if (ui_select.page_ad_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
@@ -339,7 +339,7 @@ void page_thr (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_THR);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_thr_select.sub_screen_index = ITEM_SELECT;
 
 		break;
 
@@ -352,11 +352,11 @@ void page_thr (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_thr_select.sub_screen_index == ITEM_SELECT) {
 
 
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+			} else if (ui_select.page_thr_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
@@ -391,7 +391,7 @@ void page_snd (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_SND);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_snd_select.sub_screen_index = ITEM_SELECT;
 
 		break;
 
@@ -404,11 +404,11 @@ void page_snd (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_snd_select.sub_screen_index == ITEM_SELECT) {
 
 
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+			} else if (ui_select.page_snd_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
@@ -444,7 +444,7 @@ void page_dur (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_DUR);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_dur_select.sub_screen_index = ITEM_SELECT;
 
 		break;
 
@@ -457,11 +457,11 @@ void page_dur (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_dur_select.sub_screen_index == ITEM_SELECT) {
 
 
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+			} else if (ui_select.page_dur_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
@@ -497,7 +497,7 @@ void page_fla (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_FLA);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_fla_select.sub_screen_index = ITEM_SELECT;
 
 		break;
 
@@ -510,11 +510,11 @@ void page_fla (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_fla_select.sub_screen_index == ITEM_SELECT) {
 
 
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+			} else if (ui_select.page_fla_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
@@ -550,7 +550,7 @@ void page_bri (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_BRI);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_bri_select.sub_screen_index = ITEM_SELECT;
 		break;
 
 		case WORK:
@@ -562,11 +562,11 @@ void page_bri (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_bri_select.sub_screen_index == ITEM_SELECT) {
 
 
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+			} else if (ui_select.page_bri_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
@@ -601,7 +601,7 @@ void page_unt (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_UNT);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_unit_select.sub_screen_index = ITEM_SELECT;
 
 		break;
 
@@ -612,13 +612,24 @@ void page_unt (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_unit_select.sub_screen_index == ITEM_SELECT) {
 
+				led_font_fun.led_n1_number(OFF,0);
+				led_font_fun.led_n2_number(OFF,0);
 
+				if (ui_select.page_unit_select.unit == UNIT_MPH)
+					led_font_fun.led_n3_number(ON,1);
+				else if (ui_select.page_unit_select.unit == UNIT_KM)
+					led_font_fun.led_n3_number(ON,2);
+				else if (ui_select.page_unit_select.unit == UNIT_MS)
+					led_font_fun.led_n3_number(ON,3);
+				else
+					__NOP();
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+				led_font_fun.unit_show(ON,ui_select.page_unit_select.unit);
+
+			} else if (ui_select.page_unit_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
@@ -653,7 +664,7 @@ void page_nod (void)
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_NOD);
 			led_font_fun.unit_show(ON,info.windv_unit);
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_nod_select.sub_screen_index = ITEM_SELECT;
 
 		break;
 
@@ -666,11 +677,11 @@ void page_nod (void)
 
 			led_font_fun.unit_show(ON,info.windv_unit);
 
-			if (ui_select.page_dev_select.sub_screen_index == ITEM_SELECT) {
+			if (ui_select.page_nod_select.sub_screen_index == ITEM_SELECT) {
 
 
 
-			} else if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+			} else if (ui_select.page_nod_select.sub_screen_index == ITEM_CHECK) {
 
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 

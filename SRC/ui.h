@@ -15,7 +15,7 @@ enum ui_item {
 	PAGE_SND,
 	PAGE_DUR,
 	PAGE_FLA,
-	PAGE_BRL,
+	PAGE_BRI,
 	PAGE_UNT,
 	PAGE_NOD,
 
@@ -40,24 +40,81 @@ enum dev_item {
 	DEV_WR3_EX,
 };
 
+struct PAGE_MAIN_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+};
+
 struct PAGE_DEV_SELECT
 {
 	__IO uint8_t sub_screen_index;
-	__IO uint8_t dev_type;
 	__IO uint8_t yes_no;
+	__IO uint8_t dev_type;
 };
 
 struct PAGE_AD_SELECT
 {
 	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
 	__IO uint8_t ad;
+};
+
+struct PAGE_THR_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+};
+
+struct PAGE_SND_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+};
+
+struct PAGE_DUR_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+};
+
+struct PAGE_FLA_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+};
+
+struct PAGE_BRI_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+};
+
+struct PAGE_UNT_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+	__IO uint8_t unit;
+};
+
+struct PAGE_NOD_SELECT
+{
+	__IO uint8_t sub_screen_index;
 	__IO uint8_t yes_no;
 };
 
 struct UI_SELECT
 {
-	struct PAGE_DEV_SELECT page_dev_select;
-	struct PAGE_AD_SELECT page_ad_select;
+	struct PAGE_MAIN_SELECT	page_main_select;
+	struct PAGE_DEV_SELECT	page_dev_select;
+	struct PAGE_AD_SELECT	page_ad_select;
+	struct PAGE_THR_SELECT	page_thr_select;
+	struct PAGE_SND_SELECT	page_snd_select;
+	struct PAGE_DUR_SELECT	page_dur_select;
+	struct PAGE_FLA_SELECT	page_fla_select;
+	struct PAGE_BRI_SELECT	page_bri_select;
+	struct PAGE_UNT_SELECT	page_unit_select;
+	struct PAGE_NOD_SELECT	page_nod_select;
 
 	uint16_t  ui_pause_100ms_cnt;
 

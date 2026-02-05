@@ -165,6 +165,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>info.power_on</ItemText>
         </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ui_select.page_unit_select.unit</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>
