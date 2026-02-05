@@ -53,10 +53,8 @@ void page_logo (void)
 
 		case WORK:
 
-			LED_H_SW = 0;
-			LED_M_SW = 0;
-			LED_L_SW = 1;
-
+			led_light_level(info.windv_light_level);
+			CLK_SysTickDelay(50000);
 			led_font_fun.led_7seg_pic_show(ON,PIC_ALL_ON,0);
 			CLK_SysTickDelay(500000);
 			led_font_fun.led_7seg_pic_show(OFF,PIC_ALL_ON,0);
@@ -564,6 +562,29 @@ void page_bri (void)
 
 			if (ui_select.page_bri_select.sub_screen_index == ITEM_SELECT) {
 
+				if (ui_select.page_bri_select.bri_level == LIGHT_HI) {
+
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(ON,'H');
+					led_font_fun.led_n3_text(ON,'I');
+
+				} else if (ui_select.page_bri_select.bri_level == LIGHT_NOR) {
+
+					led_font_fun.led_n1_text(ON,'N');
+					led_font_fun.led_n2_text(ON,'O');
+					led_font_fun.led_n3_text(ON,'R');
+
+				} else if (ui_select.page_bri_select.bri_level == LIGHT_LO) {
+
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(ON,'L');
+					led_font_fun.led_n3_text(ON,'O');
+
+				} else{
+					__NOP();
+				}
+
+				led_light_level(ui_select.page_bri_select.bri_level);
 
 
 			} else if (ui_select.page_bri_select.sub_screen_index == ITEM_CHECK) {

@@ -504,3 +504,28 @@ void windview_eeprom_default(void)
 
 	windview_eeprom_read();
 }
+
+void led_light_level(uint8_t bri_level)
+{
+	if (bri_level == LIGHT_HI) {
+
+		LED_H_SW = 1;
+		LED_M_SW = 0;
+		LED_L_SW = 0;
+
+	} else if (bri_level == LIGHT_NOR) {
+
+		LED_H_SW = 0;
+		LED_M_SW = 1;
+		LED_L_SW = 0;
+
+	} else if (bri_level == LIGHT_LO) {
+
+		LED_H_SW = 0;
+		LED_M_SW = 0;
+		LED_L_SW = 1;
+
+	} else {
+		__NOP();
+	}
+}

@@ -88,6 +88,7 @@ struct PAGE_BRI_SELECT
 {
 	__IO uint8_t sub_screen_index;
 	__IO uint8_t yes_no;
+	__IO uint8_t bri_level;
 };
 
 struct PAGE_UNT_SELECT

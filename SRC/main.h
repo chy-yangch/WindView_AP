@@ -166,4 +166,5 @@ extern struct RX_INFO info;
 
 extern void windview_eeprom_read(void);
 extern void windview_eeprom_default(void);
+extern void led_light_level(uint8_t bri_level);
 

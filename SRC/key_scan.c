@@ -873,7 +873,10 @@ void key_page_bri (void)
 
 			} else {
 
-
+				if (ui_select.page_bri_select.bri_level == LIGHT_HI)
+					ui_select.page_bri_select.bri_level = LIGHT_LO;
+				else
+					ui_select.page_bri_select.bri_level--;
 			}
 
 		break;
@@ -889,8 +892,12 @@ void key_page_bri (void)
 
 			} else {
 
-
+				if (ui_select.page_bri_select.bri_level == LIGHT_LO)
+					ui_select.page_bri_select.bri_level = LIGHT_HI;
+				else
+					ui_select.page_bri_select.bri_level++;
 			}
+
 		break;
 
 		case Power_KEY_BIT:
@@ -903,11 +910,51 @@ void key_page_bri (void)
 
 			Key_Info.key_bit &= ~Enter_KEY_BIT;
 
+
+			if (info.page_step == INIT) {
+
+				info.page_step = WORK;
+				ui_select.page_bri_select.sub_screen_index = ITEM_SELECT;
+				ui_select.page_bri_select.bri_level = LIGHT_HI;
+
+			} else {
+
+				if(ui_select.page_bri_select.sub_screen_index == ITEM_SELECT) {
+
+					//下述二行順序需注意
+					ui_select.ui_pause_100ms_cnt = 0;
+					ui_select.page_bri_select.sub_screen_index = ITEM_CHECK;
+
+					eerom2402_w_uint8(EEP_WINDV_LIGHT_LEVEL,ui_select.page_bri_select.bri_level);
+
+					windview_eeprom_read();
+
+				} else {
+					__NOP();
+				}
+			}
+
 		break;
 
 		case Cancel_KEY_BIT:
 
 			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+					__NOP();
+			} else {
+
+				if(ui_select.page_bri_select.sub_screen_index == ITEM_SELECT) {
+
+					info.page_step = INIT;
+
+					led_light_level(info.windv_light_level );		//取消設定設定回原本亮度
+
+				} else {
+					__NOP();
+				}
+			}
 
 		break;
 
