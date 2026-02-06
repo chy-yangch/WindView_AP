@@ -71,6 +71,7 @@ struct PAGE_SND_SELECT
 {
 	__IO uint8_t sub_screen_index;
 	__IO uint8_t yes_no;
+	__IO uint8_t sound_sw;
 };
 
 struct PAGE_DUR_SELECT

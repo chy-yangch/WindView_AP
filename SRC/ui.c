@@ -406,7 +406,18 @@ void page_snd (void)
 
 			if (ui_select.page_snd_select.sub_screen_index == ITEM_SELECT) {
 
+				if (ui_select.page_snd_select.sound_sw == ON) {
 
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(ON,'O');
+					led_font_fun.led_n3_text(ON,'N');
+
+				} else {
+
+					led_font_fun.led_n1_text(ON,'O');
+					led_font_fun.led_n2_text(ON,'F');
+					led_font_fun.led_n3_text(ON,'F');
+				}
 
 			} else if (ui_select.page_snd_select.sub_screen_index == ITEM_CHECK) {
 

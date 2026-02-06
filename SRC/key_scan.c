@@ -642,7 +642,6 @@ void key_page_thr (void)
 				}
 			}
 
-
 		break;
 
 		case Cancel_KEY_BIT:
@@ -699,7 +698,10 @@ void key_page_snd (void)
 
 			} else {
 
-
+				if (ui_select.page_snd_select.sound_sw == OFF)
+					ui_select.page_snd_select.sound_sw = ON;
+				else
+					ui_select.page_snd_select.sound_sw = OFF;
 			}
 
 		break;
@@ -715,7 +717,10 @@ void key_page_snd (void)
 
 			} else {
 
-
+				if (ui_select.page_snd_select.sound_sw == OFF)
+					ui_select.page_snd_select.sound_sw = ON;
+				else
+					ui_select.page_snd_select.sound_sw = OFF;
 			}
 
 		break;
@@ -730,11 +735,48 @@ void key_page_snd (void)
 
 			Key_Info.key_bit &= ~Enter_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.page_step = WORK;
+				ui_select.page_snd_select.sub_screen_index = ITEM_SELECT;
+				ui_select.page_snd_select.sound_sw = info.windv_sound_sw;
+
+			} else {
+
+				if(ui_select.page_snd_select.sub_screen_index == ITEM_SELECT) {
+
+					//下述二行順序需注意
+					ui_select.ui_pause_100ms_cnt = 0;
+					ui_select.page_snd_select.sub_screen_index = ITEM_CHECK;
+
+					eerom2402_w_uint8(EEP_WINDV_SOUND_SW,ui_select.page_snd_select.sound_sw);
+
+					windview_eeprom_read();
+
+				} else {
+					__NOP();
+				}
+			}
+
 		break;
 
 		case Cancel_KEY_BIT:
 
 			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+					__NOP();
+			} else {
+
+				if(ui_select.page_snd_select.sub_screen_index == ITEM_SELECT) {
+
+					info.page_step = INIT;
+
+				} else {
+					__NOP();
+				}
+			}
 
 		break;
 
