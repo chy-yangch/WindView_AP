@@ -64,6 +64,7 @@ struct PAGE_THR_SELECT
 {
 	__IO uint8_t sub_screen_index;
 	__IO uint8_t yes_no;
+	__IO uint8_t thr_value;
 };
 
 struct PAGE_SND_SELECT

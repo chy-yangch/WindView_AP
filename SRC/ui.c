@@ -68,7 +68,7 @@ void page_logo (void)
 			W1_RESET = 1;
 
 			//cc1200_work_ch = info.wireless_ch_status = 42; // for test
-			cc1200_work_ch = info.windv_ad;
+			cc1200_work_ch = info.windv_ad = 42;
 
 			SPI_Open(SPI0, SPI_MASTER, SPI_MODE_0, 8, 2000000);
 			/* Disable auto SS function, control SS signal manually. */
@@ -352,7 +352,9 @@ void page_thr (void)
 
 			if (ui_select.page_thr_select.sub_screen_index == ITEM_SELECT) {
 
-
+				led_font_fun.led_n1_number(ON,ui_select.page_thr_select.thr_value / 100);
+				led_font_fun.led_n2_number(ON,(ui_select.page_thr_select.thr_value % 100) / 10);
+				led_font_fun.led_n3_number(ON,ui_select.page_thr_select.thr_value  % 10);
 
 			} else if (ui_select.page_thr_select.sub_screen_index == ITEM_CHECK) {
 
