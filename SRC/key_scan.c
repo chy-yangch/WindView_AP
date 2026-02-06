@@ -430,19 +430,20 @@ void key_page_ad (void)
 
 			} else {
 
-				ui_select.page_ad_select.ad--;
+
+				ui_select.page_ad_select.ad++;
 
 				if (info.windv_type == DEV_WR3) {
 
-					if (ui_select.page_ad_select.ad < 3)
-						ui_select.page_ad_select.ad = 80;
+					if (ui_select.page_ad_select.ad > 80)
+						ui_select.page_ad_select.ad = 3;
 					else
 						__NOP();
 
 				} else if (info.windv_type == DEV_WL21) {
 
-					if (ui_select.page_ad_select.ad < 1)
-						ui_select.page_ad_select.ad = 80;
+					if (ui_select.page_ad_select.ad > 80)
+						ui_select.page_ad_select.ad = 1;
 					else
 						__NOP();
 
@@ -466,20 +467,19 @@ void key_page_ad (void)
 
 			} else {
 
-
-				ui_select.page_ad_select.ad++;
+				ui_select.page_ad_select.ad--;
 
 				if (info.windv_type == DEV_WR3) {
 
-					if (ui_select.page_ad_select.ad > 80)
-						ui_select.page_ad_select.ad = 3;
+					if (ui_select.page_ad_select.ad < 3)
+						ui_select.page_ad_select.ad = 80;
 					else
 						__NOP();
 
 				} else if (info.windv_type == DEV_WL21) {
 
-					if (ui_select.page_ad_select.ad > 80)
-						ui_select.page_ad_select.ad = 1;
+					if (ui_select.page_ad_select.ad < 1)
+						ui_select.page_ad_select.ad = 80;
 					else
 						__NOP();
 
@@ -487,7 +487,6 @@ void key_page_ad (void)
 
 					__NOP();
 				}
-
 			}
 
 		break;
