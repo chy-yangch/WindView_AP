@@ -1004,7 +1004,15 @@ void registerConfig(void)
 	cc120xSpiWriteReg(SPI0, CC120X_AGC_GAIN_ADJUST, &writeByte, 1);
 
 	cc1200_channel_init(freq_offset);
-	cc1200_channel(cc1200_work_ch);
+
+	if (info.windv_type == TYPE_WR3P)
+		cc1200_channel(cc1200_work_ch);
+	else if (info.windv_type == TYPE_WL21)
+		cc1200_channel(cc1200_work_ch + 2);
+	else if (info.windv_type == TYPE_WR3P_EX)
+		cc1200_channel(cc1200_work_ch);
+	else
+		__NOP();
 
 	cc120xSpiReadReg(SPI0, CC120X_PARTNUMBER, &rf_ver, 1);
 
@@ -1174,10 +1182,28 @@ void runRX_none(SPI_T * spi_none) {
 				/* 沒有綁定時,如果不是相同頻道時放棄該筆資料 */
 				ch_check = (rxBuffer[4] & 0x7F);
 
-				if ((ch_check == info.windv_ad) && (reg_u8[2] == 'A') && (reg_u8[3] == 'T'))
+
+				if (info.windv_type == TYPE_WR3P) {
+
+					if ((ch_check == info.windv_ad) && (reg_u8[2] == 'A') && (reg_u8[3] == 'T'))
+						sn_check_ok = ON;
+					else
+						sn_check_ok = OFF;
+
+				} else if (info.windv_type == TYPE_WL21) {
+
+					if ((ch_check == info.windv_ad) && (reg_u8[2] == 'D') && (reg_u8[3] == 'T'))
+						sn_check_ok = ON;
+					else
+						sn_check_ok = OFF;
+
+				} else if (info.windv_type == TYPE_WR3P_EX) {
+
 					sn_check_ok = ON;
-				else
-					sn_check_ok = OFF;
+
+				} else{
+					__NOP();
+				}
 			}
 
 			//if ((checksum == rxBuffer[13]) && (rxBuffer[0]!= 0)) {

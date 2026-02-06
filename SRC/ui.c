@@ -80,16 +80,16 @@ void page_logo (void)
 
 			SPI_ClearIntFlag(SPI0,SPI_FIFO_RXOV_INT_MASK);
 
-			CLK_SysTickDelay(500000);
+			//CLK_SysTickDelay(500000);
 
-			for (i = 0;i < 4 ;i++) {
+			for (i = 0;i <= 5 ;i++) {
 
 				led_font_fun.led_7seg_pic_show(ON,PIC_TURN_ON_MOVE,i%3);
 				CLK_SysTickDelay(500000);
 				runRX(SPI0);
 
 				if (info.wr3ptx_info.wr3ptx_first_data_get)
-					i = 5;
+					i = 6;
 			}
 
 

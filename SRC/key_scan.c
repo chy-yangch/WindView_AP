@@ -505,9 +505,8 @@ void key_page_ad (void)
 			if (info.page_step == INIT) {
 
 				info.page_step = WORK;
-				ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+				ui_select.page_ad_select.sub_screen_index = ITEM_SELECT;
 				ui_select.page_ad_select.ad = 40;
-
 
 			} else {
 
@@ -515,7 +514,7 @@ void key_page_ad (void)
 
 					//下述二行順序需注意
 					ui_select.ui_pause_100ms_cnt = 0;
-					ui_select.page_dev_select.sub_screen_index = ITEM_CHECK;
+					ui_select.page_ad_select.sub_screen_index = ITEM_CHECK;
 
 					eerom2402_w_uint8(EEP_WINDV_AD,ui_select.page_ad_select.ad);
 
