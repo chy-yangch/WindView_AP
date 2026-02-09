@@ -23,6 +23,7 @@ void mcu_idle(void);
 
 void windview_eeprom_read(void);
 void windview_eeprom_default(void);
+void apo_io(void);
 
 __IO uint8_t cc1200_get_flag = 0;
 struct RX_INFO info;
@@ -467,10 +468,12 @@ void mcu_idle(void)
 		LED_H_SW = 0;
 		LED_M_SW = 0;
 		LED_L_SW = 0;
-
+		cc1200_power_off();
 		while (info.power_on == OFF) {
 
 			//CLK_Idle();
+			//CLK_PowerDown();
+			apo_io();
 			if (Key_Info.key_bit & Power_KEY_BIT)
 					NVIC_SystemReset();
 		}
@@ -478,7 +481,7 @@ void mcu_idle(void)
 	} else {
 
 		while(!info.exit_sleep_flag) {
-			//CLK_Idle();
+			CLK_Idle();
 			//進入wfi之後,即時watch變數無法更新
 		}
 	}
@@ -528,4 +531,72 @@ void led_light_level(uint8_t bri_level)
 	} else {
 		__NOP();
 	}
+}
+
+void apo_io(void)
+{
+    SYS_UnlockReg();
+
+	SPI_Close(SPI0);
+
+	LED_H_SW = 0;
+	LED_M_SW = 0;
+	LED_L_SW = 0;
+
+	RSSI_1_PIN = 0;
+	RSSI_2_PIN = 0;
+	RSSI_3_PIN = 0;
+	RSSI_4_PIN = 0;
+
+	MP_PIN = 0;
+	KM_PIN = 0;
+	MS_PIN = 0;
+
+	DOT_PIN = 0;
+
+	N1_A_PIN = 0;
+	N1_B_PIN = 0;
+	N1_C_PIN = 0;
+	N1_D_PIN = 0;
+	N1_E_PIN = 0;
+	N1_F_PIN = 0;
+	N1_G_PIN = 0;
+
+	N2_A_PIN = 0;
+	N2_B_PIN = 0;
+	N2_C_PIN = 0;
+	N2_D_PIN = 0;
+	N2_E_PIN = 0;
+	N2_F_PIN = 0;
+	N2_G_PIN = 0;
+
+	N3_A_PIN = 0;
+	N3_B_PIN = 0;
+	N3_C_PIN = 0;
+	N3_D_PIN = 0;
+	N3_E_PIN = 0;
+	N3_F_PIN = 0;
+	N3_G_PIN = 0;
+
+	I2C_Close(I2C0);
+
+
+    SYS->GPA_MFPH = 0x00000000;
+    //SYS->GPA_MFPL = SYS_GPA_MFPL_PA3MFP_SPI0_SS | SYS_GPA_MFPL_PA2MFP_SPI0_CLK | SYS_GPA_MFPL_PA1MFP_SPI0_MISO | SYS_GPA_MFPL_PA0MFP_SPI0_MOSI;
+    SYS->GPB_MFPH = 0x00000000;
+    SYS->GPB_MFPL = 0x00000000;
+    SYS->GPC_MFPH = 0x00000000;
+  // SYS->GPC_MFPL = SYS_GPC_MFPL_PC1MFP_I2C0_SCL | SYS_GPC_MFPL_PC0MFP_I2C0_SDA;
+    SYS->GPC_MFPL = 0x00000000;
+    SYS->GPD_MFPH = 0x00000000;
+    SYS->GPD_MFPL = 0x00000000;
+     SYS->GPF_MFPL = 0x00000000;
+    //SYS->GPF_MFPL = SYS_GPF_MFPL_PF5MFP_X32_IN | SYS_GPF_MFPL_PF4MFP_X32_OUT | SYS_GPF_MFPL_PF3MFP_UART0_TXD | SYS_GPF_MFPL_PF2MFP_UART0_RXD | SYS_GPF_MFPL_PF1MFP_ICE_CLK | SYS_GPF_MFPL_PF0MFP_ICE_DAT;
+
+	//TIMER_DisableWakeup(TIMER0);
+	//TIMER_DisableWakeup(TIMER1);
+
+	CLK_PowerDown();
+
+	SYS_LockReg();
 }
