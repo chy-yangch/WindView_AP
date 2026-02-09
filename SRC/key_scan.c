@@ -233,14 +233,31 @@ void key_page_logo(void)
 
 void key_page_main (void)
 {
+	if (CONFIRM_KEY) 
+		Key_Info.key_bit &= ~Enter_KEY_BIT;
+
 	switch(Key_Info.key_bit) {
 
 		case UP_KEY_BIT:
 
 			Key_Info.key_bit &= ~UP_KEY_BIT;
 
-			info.current_page = PAGE_NOD;
-			info.page_step = INIT;
+			if (CONFIRM_KEY) {
+
+				if (info.windv_light_level == LIGHT_HI)
+					info.windv_light_level = LIGHT_LO;
+				else
+					info.windv_light_level--;
+
+				eerom2402_w_uint8(EEP_WINDV_LIGHT_LEVEL,info.windv_light_level);
+
+				led_light_level(info.windv_light_level);
+
+			} else {
+
+				info.current_page = PAGE_NOD;
+				info.page_step = INIT;
+			}
 
 		break;
 
@@ -248,8 +265,22 @@ void key_page_main (void)
 
 			Key_Info.key_bit &= ~Down_KEY_BIT;
 
-			info.current_page = PAGE_DEV;
-			info.page_step = INIT;
+			if (CONFIRM_KEY) {
+
+				if (info.windv_light_level == LIGHT_LO)
+					info.windv_light_level = LIGHT_HI;
+				else
+					info.windv_light_level++;
+
+				eerom2402_w_uint8(EEP_WINDV_LIGHT_LEVEL,info.windv_light_level);
+
+				led_light_level(info.windv_light_level);
+
+			} else {
+
+				info.current_page = PAGE_DEV;
+				info.page_step = INIT;
+			}
 
 		break;
 

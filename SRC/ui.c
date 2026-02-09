@@ -66,7 +66,7 @@ void page_logo (void)
 			W1_RESET = 1;
 
 			//cc1200_work_ch = info.wireless_ch_status = 42; // for test
-			cc1200_work_ch = info.windv_ad = 42;
+			cc1200_work_ch = info.windv_ad;
 
 			SPI_Open(SPI0, SPI_MASTER, SPI_MODE_0, 8, 2000000);
 			/* Disable auto SS function, control SS signal manually. */

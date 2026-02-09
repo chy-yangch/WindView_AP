@@ -400,7 +400,7 @@ void TMR0_IRQHandler(void)
 
 void TMR1_IRQHandler(void)
 {
-	/* 每秒2次 */
+	/* 每秒1次 */
 
 	/* Clean Timer1 Interrupt Flag */
 	TIMER_ClearIntFlag(TIMER1);
@@ -408,6 +408,10 @@ void TMR1_IRQHandler(void)
 	TIMER_ClearWakeupFlag(TIMER1);
 
 	info.cc1200_timeout_cn++;
+	
+	if (info.cc1200_timeout_cn >= 200)
+		info.cc1200_timeout_cn = 200;
+	
 	info.exit_sleep_flag = 1;
 }
 
