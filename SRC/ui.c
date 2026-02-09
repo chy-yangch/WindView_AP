@@ -152,7 +152,7 @@ uint32_t wind_speed_unit_calculate(uint8_t unit,uint32_t wind_speed_c)
 	return wind_speed_reg;
 }
 
-
+//__IO uint16_t test_value = 0;
 void page_main (void)
 {
 	uint32_t wind_speed_reg = 0;
@@ -179,7 +179,38 @@ void page_main (void)
 
 				wind_speed_reg = wind_speed_unit_calculate(info.windv_unit,info.wr3ptx_info.wind_speed);
 
-				led_font_fun.led_7seg_number_show(ON,wind_speed_reg);
+				if (info.windv_fla_sw == ON) {
+
+					//if (test_value >= info.windv_thr)
+					if (wind_speed_reg >= info.windv_thr)
+						ui_select.page_main_select.windv_fla_start_flag = ON;
+					else
+						ui_select.page_main_select.windv_fla_start_flag = OFF;
+
+					if (ui_select.page_main_select.windv_fla_start_flag) {
+
+						if (ui_select.ui_fla_blinking_status) {
+
+							led_font_fun.led_7seg_number_show(ON,wind_speed_reg);
+
+						} else {
+
+							led_font_fun.led_n1_number(OFF,0);
+							led_font_fun.led_n2_number(OFF,0);
+							led_font_fun.led_n3_number(OFF,0);
+							led_font_fun.unit_show(OFF,0);
+						}
+
+					} else {
+
+						led_font_fun.led_7seg_number_show(ON,wind_speed_reg);
+					}
+
+				} else {
+
+					led_font_fun.led_7seg_number_show(ON,wind_speed_reg);
+
+				}
 
 //			wind_speed_reg = wind_speed_unit_calculate(info.wind_speed_unit_status,info.wr3ptx_info.wind_speed);
 //			sprintf((char *)value, "%d.%d",(uint16_t) wind_speed_reg / 10,(uint16_t)wind_speed_reg % 10);

@@ -128,6 +128,7 @@ struct RX_INFO {
 	__IO uint8_t windv_sound_reset_time;
 	__IO uint8_t windv_light_level;
 	__IO uint8_t windv_mode;
+	__IO uint8_t windv_fla_sw;
 
 };
 

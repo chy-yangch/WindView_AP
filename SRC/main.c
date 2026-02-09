@@ -91,7 +91,7 @@ void SYS_Init(void)
 	io_config();
 
     /* Lock protected registers */
-    SYS_LockReg();
+	SYS_LockReg();
 
     	/* Open I2C0 and set clock to 100k */
 	I2C_Open(I2C0, 100000);
@@ -374,11 +374,33 @@ void TMR0_IRQHandler(void)
 	Key_Scan();
 
 	ui_select.ui_pause_100ms_cnt++;
+
+	if (info.windv_fla_sw) {
+
+		if (ui_select.page_main_select.windv_fla_start_flag == ON) {
+
+			if (ui_select.ui_fla_blinking_100ms_cnt >= 10) {
+
+				ui_select.ui_fla_blinking_100ms_cnt = 0;
+				ui_select.ui_fla_blinking_status ^= ON;
+				info.exit_sleep_flag = 1;
+
+			} else {
+				ui_select.ui_fla_blinking_100ms_cnt++;
+			}
+
+		} else {
+			ui_select.ui_fla_blinking_100ms_cnt = 0;
+		}
+
+	} else {
+		ui_select.ui_fla_blinking_100ms_cnt = 0;
+	}
 }
 
 void TMR1_IRQHandler(void)
 {
-	/* 每秒1次 */
+	/* 每秒2次 */
 
 	/* Clean Timer1 Interrupt Flag */
 	TIMER_ClearIntFlag(TIMER1);

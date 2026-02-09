@@ -192,6 +192,16 @@
           <WinNumber>1</WinNumber>
           <ItemText>test_value,0x0A</ItemText>
         </Ww>
+        <Ww>
+          <count>7</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>info.windv_fla_sw</ItemText>
+        </Ww>
+        <Ww>
+          <count>8</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ui_select.ui_fla_blinking_status</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

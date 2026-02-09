@@ -50,6 +50,7 @@ struct PAGE_MAIN_SELECT
 {
 	__IO uint8_t sub_screen_index;
 	__IO uint8_t yes_no;
+	__IO windv_fla_start_flag;
 };
 
 struct PAGE_DEV_SELECT
@@ -127,6 +128,8 @@ struct UI_SELECT
 	struct PAGE_NOD_SELECT	page_nod_select;
 
 	uint16_t  ui_pause_100ms_cnt;
+	uint16_t  ui_fla_blinking_100ms_cnt;
+	uint16_t  ui_fla_blinking_status;
 
 };
 
