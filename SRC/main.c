@@ -24,6 +24,7 @@ void mcu_idle(void);
 void windview_eeprom_read(void);
 void windview_eeprom_default(void);
 void apo_io(void);
+void alarm_action(void);
 
 __IO uint8_t cc1200_get_flag = 0;
 struct RX_INFO info;
@@ -164,6 +165,7 @@ int main()
 		runRX(SPI0);
 		key_case_array[info.current_page]();
 		ui_fun_array[info.current_page]();
+		alarm_action();
 		mcu_idle();
 	}
 }
@@ -499,7 +501,7 @@ void windview_eeprom_default(void)
 	eerom2402_w_uint8(EEP_WINDV_UNIT,UNIT_MS);
 	eerom2402_w_uint8(EEP_WINDV_THR,18);
 	eerom2402_w_uint8(EEP_WINDV_SOUND_SW,ON);
-	eerom2402_w_uint8(EEP_WINDV_SOUND_RESET_TIME,10);
+	eerom2402_w_uint8(EEP_WINDV_SOUND_RESET_TIME,DUR_10MIN);
 	eerom2402_w_uint8(EEP_WINDV_LIGHT_LEVEL,LIGHT_HI);
 	eerom2402_w_uint8(EEP_WINDV_MODE,MODE_DEF);
 
@@ -599,4 +601,32 @@ void apo_io(void)
 	CLK_PowerDown();
 
 	SYS_LockReg();
+}
+
+void alarm_action(void)
+{
+	uint16_t wind_speed_reg_value = 0;
+
+	wind_speed_reg_value = wind_speed_unit_calculate(info.windv_unit,info.wr3ptx_info.wind_speed);
+
+	if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC) {
+
+		PWM0_BEEPER_SW = OFF;
+
+	} else {
+
+		if (info.windv_sound_sw == ON) {
+
+			if (wind_speed_reg_value >= info.windv_thr * 10) {
+
+				PWM0_BEEPER_SW = ON;
+
+			} else {
+				PWM0_BEEPER_SW = OFF;
+			}
+
+		} else {
+			__NOP();
+		}
+	}
 }

@@ -22,8 +22,6 @@ void page_bri (void);
 void page_unt (void);
 void page_nod (void);
 
-
-
 struct UI_SELECT ui_select;
 
 void ui_init(void)
@@ -470,7 +468,18 @@ void page_dur (void)
 
 			if (ui_select.page_dur_select.sub_screen_index == ITEM_SELECT) {
 
+				if (ui_select.page_dur_select.dur_min == DUR_5MIN) {
 
+					led_font_fun.led_n1_number(OFF,0);
+					led_font_fun.led_n2_number(ON,0);
+					led_font_fun.led_n3_number(ON,5);
+
+				} else {
+
+					led_font_fun.led_n1_number(OFF,0);
+					led_font_fun.led_n2_number(ON,1);
+					led_font_fun.led_n3_number(ON,0);
+				}
 
 			} else if (ui_select.page_dur_select.sub_screen_index == ITEM_CHECK) {
 
@@ -735,3 +744,4 @@ void page_nod (void)
 
 	}
 }
+

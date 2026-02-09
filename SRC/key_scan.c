@@ -766,7 +766,7 @@ void key_page_snd (void)
 
 			if (info.page_step == INIT) {
 
-					__NOP();
+				__NOP();
 			} else {
 
 				if(ui_select.page_snd_select.sub_screen_index == ITEM_SELECT) {
@@ -814,6 +814,10 @@ void key_page_dur (void)
 
 			} else {
 
+				if (ui_select.page_dur_select.dur_min == DUR_5MIN)
+					ui_select.page_dur_select.dur_min = DUR_10MIN;
+				else
+					ui_select.page_dur_select.dur_min = DUR_5MIN;
 
 			}
 		break;
@@ -829,6 +833,10 @@ void key_page_dur (void)
 
 			} else {
 
+				if (ui_select.page_dur_select.dur_min == DUR_5MIN)
+					ui_select.page_dur_select.dur_min = DUR_10MIN;
+				else
+					ui_select.page_dur_select.dur_min = DUR_5MIN;
 
 			}
 
@@ -844,11 +852,48 @@ void key_page_dur (void)
 
 			Key_Info.key_bit &= ~Enter_KEY_BIT;
 
+			if (info.page_step == INIT) {
+
+				info.page_step = WORK;
+				ui_select.page_dur_select.sub_screen_index = ITEM_SELECT;
+				ui_select.page_dur_select.dur_min= info.windv_sound_reset_time;
+
+			} else {
+
+				if(ui_select.page_dur_select.sub_screen_index == ITEM_SELECT) {
+
+					//下述二行順序需注意
+					ui_select.ui_pause_100ms_cnt = 0;
+					ui_select.page_dur_select.sub_screen_index = ITEM_CHECK;
+
+					eerom2402_w_uint8(EEP_WINDV_SOUND_RESET_TIME,ui_select.page_dur_select.dur_min);
+
+					windview_eeprom_read();
+
+				} else {
+					__NOP();
+				}
+			}
+
 		break;
 
 		case Cancel_KEY_BIT:
 
 			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				__NOP();
+			} else {
+
+				if(ui_select.page_dur_select.sub_screen_index == ITEM_SELECT) {
+
+					info.page_step = INIT;
+
+				} else {
+					__NOP();
+				}
+			}
 
 		break;
 
