@@ -41,5 +41,6 @@ enum windv_eeprom_addr {
 	EEP_WINDV_SOUND_RESET_TIME,
 	EEP_WINDV_LIGHT_LEVEL,
 	EEP_WINDV_MODE,
+	EEP_WINDV_FLA_SW,
 
 };

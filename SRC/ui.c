@@ -198,7 +198,7 @@ void page_main (void)
 							led_font_fun.led_n1_number(OFF,0);
 							led_font_fun.led_n2_number(OFF,0);
 							led_font_fun.led_n3_number(OFF,0);
-							led_font_fun.unit_show(OFF,0);
+							DOT_PIN = OFF;
 						}
 
 					} else {
@@ -563,7 +563,18 @@ void page_fla (void)
 
 			if (ui_select.page_fla_select.sub_screen_index == ITEM_SELECT) {
 
+				if (ui_select.page_fla_select.fla_sw == ON) {
 
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(ON,'O');
+					led_font_fun.led_n3_text(ON,'N');
+
+				} else {
+
+					led_font_fun.led_n1_text(ON,'O');
+					led_font_fun.led_n2_text(ON,'F');
+					led_font_fun.led_n3_text(ON,'F');
+				}
 
 			} else if (ui_select.page_fla_select.sub_screen_index == ITEM_CHECK) {
 

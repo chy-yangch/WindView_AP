@@ -408,10 +408,10 @@ void TMR1_IRQHandler(void)
 	TIMER_ClearWakeupFlag(TIMER1);
 
 	info.cc1200_timeout_cn++;
-	
+
 	if (info.cc1200_timeout_cn >= 200)
 		info.cc1200_timeout_cn = 200;
-	
+
 	info.exit_sleep_flag = 1;
 }
 
@@ -449,6 +449,7 @@ void windview_eeprom_read(void)
 	info.windv_sound_reset_time 	=	eep2402_r_uint8(EEP_WINDV_SOUND_RESET_TIME);
 	info.windv_light_level 		=	eep2402_r_uint8(EEP_WINDV_LIGHT_LEVEL);
 	info.windv_mode			=	eep2402_r_uint8(EEP_WINDV_MODE);
+	info.windv_fla_sw			=	eep2402_r_uint8(EEP_WINDV_FLA_SW);
 
 	CLK_SysTickDelay(5000);
 }
@@ -530,6 +531,8 @@ void windview_eeprom_default(void)
 	eerom2402_w_uint8(EEP_WINDV_SOUND_RESET_TIME,DUR_10MIN);
 	eerom2402_w_uint8(EEP_WINDV_LIGHT_LEVEL,LIGHT_HI);
 	eerom2402_w_uint8(EEP_WINDV_MODE,MODE_DEF);
+	eerom2402_w_uint8(EEP_WINDV_FLA_SW,ON);
+
 
 	CLK_SysTickDelay(5000);
 
@@ -652,7 +655,7 @@ void alarm_action(void)
 			}
 
 		} else {
-			__NOP();
+			PWM0_BEEPER_SW = OFF;
 		}
 	}
 }
