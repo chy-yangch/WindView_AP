@@ -25,6 +25,7 @@ void key_page_fla(void);
 void key_page_bri(void);
 void key_page_unt(void);
 void key_page_nod(void);
+void key_page_sys(void);
 
 void key_case_init(void)
 {
@@ -38,6 +39,7 @@ void key_case_init(void)
 	key_case_array[7] = key_page_bri;
 	key_case_array[8] = key_page_unt;
 	key_case_array[9] = key_page_nod;
+	key_case_array[10] = key_page_sys;
 }
 
 
@@ -255,7 +257,7 @@ void key_page_main (void)
 
 			} else {
 
-				info.current_page = PAGE_NOD;
+				info.current_page = PAGE_SYS;
 				info.page_step = INIT;
 			}
 
@@ -438,7 +440,7 @@ void key_page_dev (void)
 
 void key_page_ad (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_ad_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -588,7 +590,7 @@ void key_page_ad (void)
 
 void key_page_thr (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_thr_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -704,7 +706,7 @@ void key_page_thr (void)
 
 void key_page_snd (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_snd_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -820,7 +822,7 @@ void key_page_snd (void)
 
 void key_page_dur (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_dur_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -937,7 +939,7 @@ void key_page_dur (void)
 
 void key_page_fla (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_fla_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -1055,7 +1057,7 @@ void key_page_fla (void)
 
 void key_page_bri (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_bri_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -1174,7 +1176,7 @@ void key_page_bri (void)
 
 void key_page_unt (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_unit_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -1292,7 +1294,7 @@ void key_page_unt (void)
 
 void key_page_nod (void)
 {
-	if (ui_select.page_dev_select.sub_screen_index == ITEM_CHECK) {
+	if (ui_select.page_nod_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
 		Key_Info.key_bit &= ~Down_KEY_BIT;
@@ -1328,7 +1330,7 @@ void key_page_nod (void)
 
 			if (info.page_step == INIT) {
 
-				info.current_page = PAGE_MAIN;
+				info.current_page = PAGE_SYS;
 				info.page_step = INIT;
 
 			} else {
@@ -1353,6 +1355,120 @@ void key_page_nod (void)
 		case Cancel_KEY_BIT:
 
 			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+		break;
+
+		default:
+			Key_Info.key_bit = 0;
+			__NOP();
+
+	}
+}
+
+void key_page_sys (void)
+{
+	switch(Key_Info.key_bit) {
+
+		case UP_KEY_BIT:
+
+			Key_Info.key_bit &= ~UP_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_NOD;
+				info.page_step = INIT;
+
+			} else {
+
+				if (ui_select.page_sys_select.sys_item == SYS_TX_BAT)
+					ui_select.page_sys_select.sys_item = SYS_FW_VER;
+				else if (ui_select.page_sys_select.sys_item == SYS_FW_VER)
+					ui_select.page_sys_select.sys_item = SYS_FW_RESTORE;
+				else if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE)
+					ui_select.page_sys_select.sys_item = SYS_TX_BAT;
+				else
+					__NOP();
+			}
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_MAIN;
+				info.page_step = INIT;
+
+			} else {
+
+				if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE)
+					ui_select.page_sys_select.sys_item = SYS_FW_VER;
+				else if (ui_select.page_sys_select.sys_item == SYS_FW_VER)
+					ui_select.page_sys_select.sys_item = SYS_TX_BAT;
+				else if (ui_select.page_sys_select.sys_item == SYS_TX_BAT)
+					ui_select.page_sys_select.sys_item = SYS_FW_RESTORE;
+				else
+					__NOP();
+			}
+
+		break;
+
+		case Power_KEY_BIT:
+
+			Key_Info.key_bit &= ~Power_KEY_BIT;
+
+		break;
+
+		case Enter_KEY_BIT:
+
+			Key_Info.key_bit &= ~Enter_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.page_step = WORK;
+				ui_select.page_sys_select.sub_screen_index = ITEM_SELECT;
+				ui_select.page_sys_select.sys_item = SYS_TX_BAT;
+
+			} else {
+
+				if(ui_select.page_sys_select.sub_screen_index == ITEM_SELECT) {
+
+					//下述二行順序需注意
+					//ui_select.ui_pause_100ms_cnt = 0;
+					ui_select.page_sys_select.sub_screen_index = ITEM_CHECK;
+					
+					ui_select.page_sys_select.fwv_show = 0;
+
+				} else if (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK) {
+
+					info.page_step = INIT;
+
+					__NOP();
+				}
+			}
+
+		break;
+
+		case Cancel_KEY_BIT:
+
+			Key_Info.key_bit &= ~Cancel_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+					__NOP();
+			} else {
+
+				if ((ui_select.page_sys_select.sub_screen_index == ITEM_SELECT) ||
+				    (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK)){
+
+					info.page_step = INIT;
+
+				} else {
+					__NOP();
+				}
+			}
 
 		break;
 

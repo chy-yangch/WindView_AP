@@ -1776,6 +1776,14 @@ uint8_t led_7seg_text_show(uint8_t on_off,uint8_t word)
 
 				break;
 
+			case TEXT_SYS:
+
+				led_n1_text(ON,'S');
+				led_n2_text(ON,'Y');
+				led_n3_text(ON,'S');
+
+				break;
+
 			case TEXT_YES:
 
 				led_n1_text(ON,'Y');

@@ -365,6 +365,7 @@ void LXT_Enable(void)
 void TMR0_IRQHandler(void)
 {
 	/* ¨C¬í10¦¸ */
+	static uint8_t fwv_cnt = 0;
 
 	/* Clean Timer0 Interrupt Flag */
 	TIMER_ClearIntFlag(TIMER0);
@@ -395,6 +396,24 @@ void TMR0_IRQHandler(void)
 
 	} else {
 		ui_select.ui_fla_blinking_100ms_cnt = 0;
+	}
+
+
+	if ((ui_select.page_sys_select.sys_item == SYS_FW_VER) && (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK)){
+
+		fwv_cnt++;
+
+		if (fwv_cnt >= 5) {
+
+			info.exit_sleep_flag = 1;
+
+			fwv_cnt = 0;
+
+			if (ui_select.page_sys_select.fwv_show >= 7)
+				ui_select.page_sys_select.fwv_show = 0;
+			else
+				ui_select.page_sys_select.fwv_show++;
+		}
 	}
 }
 

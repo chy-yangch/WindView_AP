@@ -46,6 +46,7 @@ extern "C"
 #define	N3_F_PIN				PC14
 #define	N3_G_PIN				PB14
 
+#define FWV	1234
 #define CE
 //#define FCC
 //#define RCM

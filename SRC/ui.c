@@ -21,6 +21,7 @@ void page_fla (void);
 void page_bri (void);
 void page_unt (void);
 void page_nod (void);
+void page_sys (void);
 
 struct UI_SELECT ui_select;
 
@@ -36,6 +37,7 @@ void ui_init(void)
 	ui_fun_array[7] = page_bri;
 	ui_fun_array[8] = page_unt;
 	ui_fun_array[9] = page_nod;
+	ui_fun_array[10] = page_sys;
 }
 
 
@@ -98,7 +100,10 @@ void page_logo (void)
 
 			info.current_page = PAGE_MAIN;
 			info.page_step = INIT;
-			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
+			ui_select.page_main_select.sub_screen_index = ITEM_SELECT;
+
+			ui_select.ui_fla_blinking_100ms_cnt = 0;
+			ui_select.ui_fla_blinking_status = ON;
 
 		default:
 			__NOP();
@@ -787,3 +792,225 @@ void page_nod (void)
 	}
 }
 
+void page_sys (void)
+{
+	uint16_t u16_reg = 0;
+
+	switch(info.page_step) {
+
+		case INIT:
+
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.led_7seg_text_show(ON,TEXT_SYS);
+			led_font_fun.unit_show(ON,info.windv_unit);
+			ui_select.page_sys_select.sub_screen_index = ITEM_SELECT;
+
+		break;
+
+		case WORK:
+
+			if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC)
+				led_font_fun.rssi_show(OFF,0);
+			else
+				draw_Rssi();
+
+			led_font_fun.unit_show(ON,info.windv_unit);
+
+			if (ui_select.page_sys_select.sub_screen_index == ITEM_SELECT) {
+
+				if (ui_select.page_sys_select.sys_item == SYS_TX_BAT) {
+
+					led_font_fun.led_n1_text(ON,'B');
+					led_font_fun.led_n2_text(ON,'A');
+					led_font_fun.led_n3_text(ON,'T');
+
+				} else if (ui_select.page_sys_select.sys_item == SYS_FW_VER) {
+
+					led_font_fun.led_n1_text(ON,'V');
+					led_font_fun.led_n2_text(ON,'E');
+					led_font_fun.led_n3_text(ON,'R');
+
+				} else if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE) {
+
+					led_font_fun.led_n1_text(ON,'R');
+					led_font_fun.led_n2_text(ON,'S');
+					led_font_fun.led_n3_text(ON,'T');
+
+				} else {
+					__NOP();
+				}
+
+			} else if (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK) {
+
+				if (ui_select.page_sys_select.sys_item == SYS_TX_BAT) {
+
+					if (info.cc1200_timeout_cn >= CC1200_TIMEOUT_SEC) {
+
+						led_font_fun.rssi_show(OFF,0);
+						led_font_fun.led_7seg_pic_show(ON,PIC_NO_LINK,0);
+
+					} else {
+
+						if (info.wr3ptx_info.low_batt >= 100) {
+
+							led_font_fun.led_n1_number(ON,1);
+							led_font_fun.led_n2_number(ON,0);
+							led_font_fun.led_n3_number(ON,0);
+
+						} else if  (info.wr3ptx_info.low_batt >= 10) {
+
+							led_font_fun.led_n1_number(OFF,0);
+							led_font_fun.led_n2_number(ON,info.wr3ptx_info.low_batt / 10);
+							led_font_fun.led_n3_number(ON,info.wr3ptx_info.low_batt % 10);
+
+						} else {
+
+							led_font_fun.led_n1_number(OFF,0);
+							led_font_fun.led_n2_number(OFF,0);
+							led_font_fun.led_n3_number(ON,info.wr3ptx_info.low_batt % 10);
+						}
+					}
+
+				} else if (ui_select.page_sys_select.sys_item == SYS_FW_VER) {
+
+
+					switch (ui_select.page_sys_select.fwv_show) {
+
+						case 0:
+
+							led_font_fun.led_n1_text(OFF,0);
+							led_font_fun.led_n2_text(OFF,0);
+
+							#ifdef CE
+								led_font_fun.led_n3_text(ON,'C');
+							#elif FCC
+								led_font_fun.led_n3_text(ON,'F');
+							#elif RCM
+								led_font_fun.led_n3_text(ON,'R');
+							#elif TELEC
+								led_font_fun.led_n3_text(ON,'T');
+							#endif
+
+						break;
+
+						case 1:
+
+							led_font_fun.led_n1_text(OFF,0);
+
+							#ifdef CE
+								led_font_fun.led_n2_text(ON,'C');
+							#elif FCC
+								led_font_fun.led_n2_text(ON,'F');
+							#elif RCM
+								led_font_fun.led_n2_text(ON,'R');
+							#elif TELEC
+								led_font_fun.led_n2_text(ON,'T');
+							#endif
+
+							u16_reg = FWV/1000;
+							led_font_fun.led_n3_number(ON,u16_reg);
+
+						break;
+
+						case 2:
+
+							#ifdef CE
+								led_font_fun.led_n1_text(ON,'C');
+							#elif FCC
+								led_font_fun.led_n1_text(ON,'F');
+							#elif RCM
+								led_font_fun.led_n1_text(ON,'R');
+							#elif TELEC
+								led_font_fun.led_n1_text(ON,'T');
+							#endif
+
+							u16_reg = FWV/1000;
+							led_font_fun.led_n2_number(ON,u16_reg);
+
+							u16_reg = (FWV/100) % 10;
+							led_font_fun.led_n3_number(ON,u16_reg);
+
+						break;
+
+						case 3:
+
+
+							u16_reg = FWV/1000;
+							led_font_fun.led_n1_number(ON,u16_reg);
+
+							u16_reg = (FWV/100) % 10;
+							led_font_fun.led_n2_number(ON,u16_reg);
+
+							u16_reg = (FWV/10) % 10 ;
+							led_font_fun.led_n3_number(ON,u16_reg);
+
+						break;
+
+						case 4:
+
+							u16_reg = (FWV/100) % 10;
+							led_font_fun.led_n1_number(ON,u16_reg);
+
+							u16_reg = (FWV/10) % 10 ;
+							led_font_fun.led_n2_number(ON,u16_reg);
+
+							u16_reg = FWV % 10 ;
+							led_font_fun.led_n3_number(ON,u16_reg);
+
+						break;
+
+						case 5:
+
+							u16_reg = (FWV/10) % 10 ;
+							led_font_fun.led_n1_number(ON,u16_reg);
+
+							u16_reg = FWV % 10 ;
+							led_font_fun.led_n2_number(ON,u16_reg);
+
+							led_font_fun.led_n3_number(OFF,u16_reg);
+
+						break;
+
+						case 6:
+
+							u16_reg = FWV % 10 ;
+							led_font_fun.led_n1_number(ON,u16_reg);
+
+							led_font_fun.led_n2_number(OFF,u16_reg);
+
+							led_font_fun.led_n3_number(OFF,u16_reg);
+
+						break;
+
+						case 7:
+
+							led_font_fun.led_n1_number(OFF,u16_reg);
+
+							led_font_fun.led_n2_number(OFF,u16_reg);
+
+							led_font_fun.led_n3_number(OFF,u16_reg);
+
+						break;
+
+					}
+
+				} else if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE) {
+
+				} else {
+
+					__NOP();
+				}
+
+			} else {
+				__NOP();
+			}
+
+		default:
+			__NOP();
+
+	}
+}

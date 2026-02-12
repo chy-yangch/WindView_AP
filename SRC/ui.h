@@ -18,6 +18,7 @@ enum ui_item {
 	PAGE_BRI,
 	PAGE_UNT,
 	PAGE_NOD,
+	PAGE_SYS,
 
 };
 
@@ -44,6 +45,13 @@ enum dur_item {
 
 	DUR_5MIN,
 	DUR_10MIN,
+};
+
+enum sys_item {
+
+	SYS_TX_BAT,
+	SYS_FW_VER,
+	SYS_FW_RESTORE,
 };
 
 struct PAGE_MAIN_SELECT
@@ -115,6 +123,14 @@ struct PAGE_NOD_SELECT
 	__IO uint8_t yes_no;
 };
 
+struct PAGE_SYS_SELECT
+{
+	__IO uint8_t sub_screen_index;
+	__IO uint8_t yes_no;
+	__IO uint8_t  sys_item;
+	__IO uint8_t fwv_show;
+};
+
 struct UI_SELECT
 {
 	struct PAGE_MAIN_SELECT	page_main_select;
@@ -127,6 +143,7 @@ struct UI_SELECT
 	struct PAGE_BRI_SELECT	page_bri_select;
 	struct PAGE_UNT_SELECT	page_unit_select;
 	struct PAGE_NOD_SELECT	page_nod_select;
+	struct PAGE_SYS_SELECT page_sys_select;
 
 	uint16_t  ui_pause_100ms_cnt;
 	uint16_t  ui_fla_blinking_100ms_cnt;

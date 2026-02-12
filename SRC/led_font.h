@@ -89,6 +89,7 @@ enum led_7seg_text_item {
 	TEXT_BRI,
 	TEXT_UNT,
 	TEXT_NOD,
+	TEXT_SYS,
 	TEXT_YES,
 
 };
