@@ -1005,14 +1005,16 @@ void registerConfig(void)
 
 	cc1200_channel_init(freq_offset);
 
-	if (info.windv_type == TYPE_WR3P)
+#ifdef CE
+		if (info.windv_type == TYPE_WR3P)
+			cc1200_channel(cc1200_work_ch);
+		else
+			cc1200_channel(cc1200_work_ch + 2);
+#else
+
 		cc1200_channel(cc1200_work_ch);
-	else if (info.windv_type == TYPE_WL21)
-		cc1200_channel(cc1200_work_ch + 2);
-	else if (info.windv_type == TYPE_WR3P_EX)
-		cc1200_channel(cc1200_work_ch);
-	else
-		__NOP();
+
+#endif
 
 	cc120xSpiReadReg(SPI0, CC120X_PARTNUMBER, &rf_ver, 1);
 

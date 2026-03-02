@@ -885,14 +885,14 @@ void page_sys (void)
 							led_font_fun.led_n1_text(OFF,0);
 							led_font_fun.led_n2_text(OFF,0);
 
-							#ifdef CE
-								led_font_fun.led_n3_text(ON,'C');
-							#elif FCC
-								led_font_fun.led_n3_text(ON,'F');
-							#elif RCM
-								led_font_fun.led_n3_text(ON,'R');
-							#elif TELEC
-								led_font_fun.led_n3_text(ON,'T');
+							#if defined CE
+							    led_font_fun.led_n3_text(ON,'C');
+							#elif defined FCC
+							    led_font_fun.led_n3_text(ON,'F');
+							#elif defined RCM
+							    led_font_fun.led_n3_text(ON,'R');
+							#elif defined TELEC
+							    led_font_fun.led_n3_text(ON,'T');
 							#endif
 
 						break;
@@ -901,14 +901,14 @@ void page_sys (void)
 
 							led_font_fun.led_n1_text(OFF,0);
 
-							#ifdef CE
-								led_font_fun.led_n2_text(ON,'C');
-							#elif FCC
-								led_font_fun.led_n2_text(ON,'F');
-							#elif RCM
-								led_font_fun.led_n2_text(ON,'R');
-							#elif TELEC
-								led_font_fun.led_n2_text(ON,'T');
+							#if defined CE
+							    led_font_fun.led_n3_text(ON,'C');
+							#elif defined FCC
+							    led_font_fun.led_n3_text(ON,'F');
+							#elif defined RCM
+							    led_font_fun.led_n3_text(ON,'R');
+							#elif defined TELEC
+							    led_font_fun.led_n3_text(ON,'T');
 							#endif
 
 							u16_reg = FWV/1000;
@@ -918,14 +918,14 @@ void page_sys (void)
 
 						case 2:
 
-							#ifdef CE
-								led_font_fun.led_n1_text(ON,'C');
-							#elif FCC
-								led_font_fun.led_n1_text(ON,'F');
-							#elif RCM
-								led_font_fun.led_n1_text(ON,'R');
-							#elif TELEC
-								led_font_fun.led_n1_text(ON,'T');
+							#if defined CE
+							    led_font_fun.led_n3_text(ON,'C');
+							#elif defined FCC
+							    led_font_fun.led_n3_text(ON,'F');
+							#elif defined RCM
+							    led_font_fun.led_n3_text(ON,'R');
+							#elif defined TELEC
+							    led_font_fun.led_n3_text(ON,'T');
 							#endif
 
 							u16_reg = FWV/1000;
