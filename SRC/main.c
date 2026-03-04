@@ -366,6 +366,7 @@ void TMR0_IRQHandler(void)
 {
 	/* ¨C¬í10¦¸ */
 	static uint8_t fwv_cnt = 0;
+	static uint8_t restore_cnt = 0;
 
 	/* Clean Timer0 Interrupt Flag */
 	TIMER_ClearIntFlag(TIMER0);
@@ -415,6 +416,23 @@ void TMR0_IRQHandler(void)
 				ui_select.page_sys_select.fwv_show++;
 		}
 	}
+	
+	if ((ui_select.page_sys_select.sys_item == SYS_FW_RESTORE) && (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK)){
+
+		restore_cnt++;
+
+		if (restore_cnt >= 5) {
+
+			info.exit_sleep_flag = 1;
+
+			restore_cnt = 0;
+
+			if (ui_select.page_sys_select.restore_show >= 10)
+				ui_select.page_sys_select.restore_show = 0;
+			else
+				ui_select.page_sys_select.restore_show++;
+		}
+	}	
 }
 
 void TMR1_IRQHandler(void)

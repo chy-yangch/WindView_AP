@@ -129,6 +129,7 @@ struct PAGE_SYS_SELECT
 	__IO uint8_t yes_no;
 	__IO uint8_t  sys_item;
 	__IO uint8_t fwv_show;
+	__IO uint8_t restore_show;
 };
 
 struct UI_SELECT

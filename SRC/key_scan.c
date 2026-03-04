@@ -1381,11 +1381,11 @@ void key_page_sys (void)
 			} else {
 
 				if (ui_select.page_sys_select.sys_item == SYS_TX_BAT)
-					ui_select.page_sys_select.sys_item = SYS_FW_VER;
-				else if (ui_select.page_sys_select.sys_item == SYS_FW_VER)
 					ui_select.page_sys_select.sys_item = SYS_FW_RESTORE;
-				else if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE)
+				else if (ui_select.page_sys_select.sys_item == SYS_FW_VER)
 					ui_select.page_sys_select.sys_item = SYS_TX_BAT;
+				else if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE)
+					ui_select.page_sys_select.sys_item = SYS_FW_VER;
 				else
 					__NOP();
 			}
@@ -1404,11 +1404,11 @@ void key_page_sys (void)
 			} else {
 
 				if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE)
-					ui_select.page_sys_select.sys_item = SYS_FW_VER;
-				else if (ui_select.page_sys_select.sys_item == SYS_FW_VER)
 					ui_select.page_sys_select.sys_item = SYS_TX_BAT;
-				else if (ui_select.page_sys_select.sys_item == SYS_TX_BAT)
+				else if (ui_select.page_sys_select.sys_item == SYS_FW_VER)
 					ui_select.page_sys_select.sys_item = SYS_FW_RESTORE;
+				else if (ui_select.page_sys_select.sys_item == SYS_TX_BAT)
+					ui_select.page_sys_select.sys_item = SYS_FW_VER;
 				else
 					__NOP();
 			}
@@ -1438,8 +1438,9 @@ void key_page_sys (void)
 					//下述二行順序需注意
 					//ui_select.ui_pause_100ms_cnt = 0;
 					ui_select.page_sys_select.sub_screen_index = ITEM_CHECK;
-					
+
 					ui_select.page_sys_select.fwv_show = 0;
+					ui_select.page_sys_select.restore_show = 0;
 
 				} else if (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK) {
 

@@ -187,7 +187,7 @@ void page_main (void)
 				if (info.windv_fla_sw == ON) {
 
 					//if (test_value >= info.windv_thr)
-					if (wind_speed_reg >= info.windv_thr)
+					if (wind_speed_reg >= info.windv_thr * 10)
 						ui_select.page_main_select.windv_fla_start_flag = ON;
 					else
 						ui_select.page_main_select.windv_fla_start_flag = OFF;
@@ -241,7 +241,7 @@ void page_dev (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_DEV);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_dev_select.sub_screen_index = ITEM_SELECT;
 		break;
 
@@ -276,7 +276,7 @@ void page_dev (void)
 					__NOP();
 				}
 
-				led_font_fun.unit_show(ON,info.windv_unit);
+				led_font_fun.unit_show(OFF,info.windv_unit);
 				draw_Rssi();
 
 
@@ -314,7 +314,7 @@ void page_ad (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_AD);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_ad_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -326,7 +326,7 @@ void page_ad (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_ad_select.sub_screen_index == ITEM_SELECT) {
 
@@ -370,7 +370,7 @@ void page_thr (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_THR);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_thr_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -382,7 +382,7 @@ void page_thr (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_thr_select.sub_screen_index == ITEM_SELECT) {
 
@@ -424,7 +424,7 @@ void page_snd (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_SND);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_snd_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -436,7 +436,7 @@ void page_snd (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_snd_select.sub_screen_index == ITEM_SELECT) {
 
@@ -488,7 +488,7 @@ void page_dur (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_DUR);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_dur_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -500,7 +500,7 @@ void page_dur (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_dur_select.sub_screen_index == ITEM_SELECT) {
 
@@ -552,7 +552,7 @@ void page_fla (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_FLA);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_fla_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -564,7 +564,7 @@ void page_fla (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_fla_select.sub_screen_index == ITEM_SELECT) {
 
@@ -616,7 +616,7 @@ void page_bri (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_BRI);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_bri_select.sub_screen_index = ITEM_SELECT;
 		break;
 
@@ -627,7 +627,7 @@ void page_bri (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_bri_select.sub_screen_index == ITEM_SELECT) {
 
@@ -690,7 +690,7 @@ void page_unt (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_UNT);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_unit_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -717,7 +717,7 @@ void page_unt (void)
 				else
 					__NOP();
 
-				led_font_fun.unit_show(ON,ui_select.page_unit_select.unit);
+				led_font_fun.unit_show(OFF,ui_select.page_unit_select.unit);
 
 			} else if (ui_select.page_unit_select.sub_screen_index == ITEM_CHECK) {
 
@@ -753,7 +753,7 @@ void page_nod (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_NOD);
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 			ui_select.page_nod_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -765,7 +765,7 @@ void page_nod (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_nod_select.sub_screen_index == ITEM_SELECT) {
 
@@ -806,7 +806,6 @@ void page_sys (void)
 				draw_Rssi();
 
 			led_font_fun.led_7seg_text_show(ON,TEXT_SYS);
-			led_font_fun.unit_show(ON,info.windv_unit);
 			ui_select.page_sys_select.sub_screen_index = ITEM_SELECT;
 
 		break;
@@ -818,7 +817,7 @@ void page_sys (void)
 			else
 				draw_Rssi();
 
-			led_font_fun.unit_show(ON,info.windv_unit);
+			led_font_fun.unit_show(OFF,info.windv_unit);
 
 			if (ui_select.page_sys_select.sub_screen_index == ITEM_SELECT) {
 
@@ -996,9 +995,89 @@ void page_sys (void)
 
 						break;
 
+						default:
+							__NOP();
+
 					}
 
 				} else if (ui_select.page_sys_select.sys_item == SYS_FW_RESTORE) {
+
+					led_font_fun.led_n1_number(OFF,0);
+
+					led_font_fun.led_n2_number(OFF,0);
+
+					led_font_fun.led_n3_number(OFF,0);
+
+					switch (ui_select.page_sys_select.restore_show) {
+
+						case 0:
+
+							N1_A_PIN = 1;
+
+							break;
+
+						case 1:
+
+							N2_A_PIN = 1;
+
+							break;
+
+						case 2:
+
+							N3_A_PIN = 1;
+
+							break;
+
+						case 3:
+
+							N3_B_PIN = 1;
+
+							break;
+
+						case 4:
+
+							N3_C_PIN = 1;
+
+							break;
+
+						case 5:
+
+							N3_D_PIN = 1;
+
+							break;
+
+						case 6:
+
+							N2_D_PIN = 1;
+
+							break;
+
+						case 7:
+
+							N1_D_PIN = 1;
+
+							break;
+
+						case 8:
+
+							N1_E_PIN = 1;
+
+							break;
+
+
+						case 9:
+
+							N1_F_PIN = 1;
+							windview_eeprom_default();
+							CLK_SysTickDelay(500000);
+							NVIC_SystemReset();
+
+							break;
+
+						default:
+							__NOP();
+
+					}
 
 				} else {
 
