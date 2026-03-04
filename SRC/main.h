@@ -130,7 +130,7 @@ struct RX_INFO {
 	__IO uint8_t windv_light_level;
 	__IO uint8_t windv_mode;
 	__IO uint8_t windv_fla_sw;
-
+	__IO int8_t windv_ex_sn[4];
 };
 
 enum windv_type_item{
@@ -138,6 +138,7 @@ enum windv_type_item{
 	TYPE_WR3P,
 	TYPE_WL21,
 	TYPE_WR3P_EX,
+	TYPE_WL21_EX,
 };
 
 enum windv_unit_item{

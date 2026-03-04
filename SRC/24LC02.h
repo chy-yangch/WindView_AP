@@ -42,5 +42,6 @@ enum windv_eeprom_addr {
 	EEP_WINDV_LIGHT_LEVEL,
 	EEP_WINDV_MODE,
 	EEP_WINDV_FLA_SW,
+	EEP_WINDV_EX_SN,
 
 };

@@ -340,11 +340,13 @@ void key_page_dev (void)
 			} else {
 
 				if (ui_select.page_dev_select.dev_type == DEV_WR3)
-					ui_select.page_dev_select.dev_type = DEV_WR3_EX;
+					ui_select.page_dev_select.dev_type = DEV_WL21_EX;
 				else if (ui_select.page_dev_select.dev_type == DEV_WL21)
 					ui_select.page_dev_select.dev_type = DEV_WR3;
 				else if (ui_select.page_dev_select.dev_type == DEV_WR3_EX)
 					ui_select.page_dev_select.dev_type = DEV_WL21;
+				else if (ui_select.page_dev_select.dev_type == DEV_WL21_EX)
+					ui_select.page_dev_select.dev_type = DEV_WR3_EX;
 				else
 					__NOP();
 			}
@@ -367,6 +369,8 @@ void key_page_dev (void)
 				else if (ui_select.page_dev_select.dev_type == DEV_WL21)
 					ui_select.page_dev_select.dev_type = DEV_WR3_EX;
 				else if (ui_select.page_dev_select.dev_type == DEV_WR3_EX)
+					ui_select.page_dev_select.dev_type = DEV_WL21_EX;
+				else if (ui_select.page_dev_select.dev_type == DEV_WL21_EX)
 					ui_select.page_dev_select.dev_type = DEV_WR3;
 				else
 					__NOP();
@@ -440,6 +444,8 @@ void key_page_dev (void)
 
 void key_page_ad (void)
 {
+	uint8_t i = 0;
+
 	if (ui_select.page_ad_select.sub_screen_index == ITEM_CHECK) {
 
 		Key_Info.key_bit &= ~UP_KEY_BIT;
@@ -465,44 +471,23 @@ void key_page_ad (void)
 
 			} else {
 
+				if ((info.windv_type == DEV_WR3) ||(info.windv_type == DEV_WL21)) {
 
-				ui_select.page_ad_select.ad++;
+					ui_select.page_ad_select.ad--;
 
-				if (info.windv_type == DEV_WR3) {
+				} else {
 
-					if (ui_select.page_ad_select.ad > 80)
-						ui_select.page_ad_select.ad = 3;
+					if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_A)
+						ui_select.page_ad_select.ex_sn_ad_array[0]--;
+					else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_B)
+						ui_select.page_ad_select.ex_sn_ad_array[1]--;
+					else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_C)
+						ui_select.page_ad_select.ex_sn_ad_array[2]--;
+					else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_D)
+						ui_select.page_ad_select.ex_sn_ad_array[3]--;
 					else
 						__NOP();
-
-				} else if (info.windv_type == DEV_WL21) {
-
-					if (ui_select.page_ad_select.ad > 80)
-						ui_select.page_ad_select.ad = 1;
-					else
-						__NOP();
-
-				} else if (info.windv_type == DEV_WR3_EX) {
-
-					__NOP();
 				}
-
-			}
-
-		break;
-
-		case Down_KEY_BIT:
-
-			Key_Info.key_bit &= ~Down_KEY_BIT;
-
-			if (info.page_step == INIT) {
-
-				info.current_page = PAGE_THR;
-				info.page_step = INIT;
-
-			} else {
-
-				ui_select.page_ad_select.ad--;
 
 				if (info.windv_type == DEV_WR3) {
 
@@ -518,7 +503,140 @@ void key_page_ad (void)
 					else
 						__NOP();
 
-				} else if (info.windv_type == DEV_WR3_EX) {
+				} else if ((info.windv_type == DEV_WR3_EX) ||  (info.windv_type == DEV_WL21_EX)){
+
+					if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_A) {
+
+						if (ui_select.page_ad_select.ex_sn_ad_array[0] < 1)
+							ui_select.page_ad_select.ex_sn_ad_array[0] = 99;
+						else
+							__NOP();
+
+					} else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_B) {
+
+						if (ui_select.page_ad_select.ex_sn_ad_array[1] < 1 )
+							ui_select.page_ad_select.ex_sn_ad_array[1] = 12;
+						else
+							__NOP();
+
+					} else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_C) {
+
+						if (ui_select.page_ad_select.ex_sn_ad_array[2] < 0)
+							ui_select.page_ad_select.ex_sn_ad_array[2] = 99;
+						else
+							__NOP();
+
+					} else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_D) {
+
+						if (info.windv_type == DEV_WR3_EX) {
+
+							if (ui_select.page_ad_select.ex_sn_ad_array[3] < 3)
+								ui_select.page_ad_select.ex_sn_ad_array[3] = 80;
+							else
+								__NOP();
+						} else {
+
+							if (ui_select.page_ad_select.ex_sn_ad_array[3] < 1)
+								ui_select.page_ad_select.ex_sn_ad_array[3] = 80;
+							else
+								__NOP();
+						}
+
+					} else{
+						__NOP();
+					}
+
+					__NOP();
+				}
+			}
+
+		break;
+
+		case Down_KEY_BIT:
+
+			Key_Info.key_bit &= ~Down_KEY_BIT;
+
+			if (info.page_step == INIT) {
+
+				info.current_page = PAGE_THR;
+				info.page_step = INIT;
+
+			} else {
+
+				if ((info.windv_type == DEV_WR3) ||(info.windv_type == DEV_WL21)) {
+
+					ui_select.page_ad_select.ad++;
+
+				} else {
+
+					if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_A)
+						ui_select.page_ad_select.ex_sn_ad_array[0]++;
+					else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_B)
+						ui_select.page_ad_select.ex_sn_ad_array[1]++;
+					else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_C)
+						ui_select.page_ad_select.ex_sn_ad_array[2]++;
+					else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_D)
+						ui_select.page_ad_select.ex_sn_ad_array[3]++;
+					else
+						__NOP();
+				}
+
+				if (info.windv_type == DEV_WR3) {
+
+					if (ui_select.page_ad_select.ad > 80)
+						ui_select.page_ad_select.ad = 3;
+					else
+						__NOP();
+
+				} else if (info.windv_type == DEV_WL21) {
+
+					if (ui_select.page_ad_select.ad > 80)
+						ui_select.page_ad_select.ad = 1;
+					else
+						__NOP();
+
+				} else if ((info.windv_type == DEV_WR3_EX) ||  (info.windv_type == DEV_WL21_EX)){
+
+					if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_A) {
+
+						if (ui_select.page_ad_select.ex_sn_ad_array[0] > 99)
+							ui_select.page_ad_select.ex_sn_ad_array[0] = 1;
+						else
+							__NOP();
+
+					} else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_B) {
+
+						if (ui_select.page_ad_select.ex_sn_ad_array[1] > 12)
+							ui_select.page_ad_select.ex_sn_ad_array[1] = 1;
+						else
+							__NOP();
+
+					} else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_C) {
+
+						if (ui_select.page_ad_select.ex_sn_ad_array[2] > 99)
+							ui_select.page_ad_select.ex_sn_ad_array[2] = 0;
+						else
+							__NOP();
+
+					} else if (ui_select.page_ad_select.sn_ex_set_step == SN_EX_D) {
+
+						if (info.windv_type == DEV_WR3_EX) {
+
+							if (ui_select.page_ad_select.ex_sn_ad_array[3] > 80)
+								ui_select.page_ad_select.ex_sn_ad_array[3] = 3;
+							else
+								__NOP();
+						} else {
+
+							if (ui_select.page_ad_select.ex_sn_ad_array[3] > 80)
+								ui_select.page_ad_select.ex_sn_ad_array[3] = 1;
+							else
+								__NOP();
+						}
+
+					} else{
+						__NOP();
+					}
 
 					__NOP();
 				}
@@ -540,19 +658,50 @@ void key_page_ad (void)
 
 				info.page_step = WORK;
 				ui_select.page_ad_select.sub_screen_index = ITEM_SELECT;
-				ui_select.page_ad_select.ad = info.windv_ad;
+
+				 if ((info.windv_type == DEV_WR3_EX) ||  (info.windv_type == DEV_WL21_EX)){
+
+					ui_select.page_ad_select.sn_ex_set_step = 0;
+
+					for (i = 0;i < 4; i++) {
+						ui_select.page_ad_select.ex_sn_ad_array[i]  = info.windv_ex_sn[i] ;
+					}
+
+					ui_select.page_ad_select.sn_ex_blinking_flag = ON;
+					ui_select.page_ad_select.ui_sn_ex_blinking_status = ON;
+
+				} else {
+
+					ui_select.page_ad_select.ad = info.windv_ad;
+				}
+
 
 			} else {
 
 				if(ui_select.page_ad_select.sub_screen_index == ITEM_SELECT) {
 
-					//下述二行順序需注意
-					ui_select.ui_pause_100ms_cnt = 0;
-					ui_select.page_ad_select.sub_screen_index = ITEM_CHECK;
+					if ((info.windv_type == DEV_WR3) ||(info.windv_type == DEV_WL21)) {
 
-					eerom2402_w_uint8(EEP_WINDV_AD,ui_select.page_ad_select.ad);
+						//下述二行順序需注意
+						ui_select.ui_pause_100ms_cnt = 0;
+						ui_select.page_ad_select.sub_screen_index = ITEM_CHECK;
 
-					windview_eeprom_read();
+						eerom2402_w_uint8(EEP_WINDV_AD,ui_select.page_ad_select.ad);
+
+						windview_eeprom_read();
+
+					} else {
+
+						ui_select.page_ad_select.sn_ex_set_step++;
+
+						if (ui_select.page_ad_select.sn_ex_set_step > SN_EX_D) {
+
+							//下述二行順序需注意
+							ui_select.ui_pause_100ms_cnt = 0;
+							ui_select.page_ad_select.sub_screen_index = ITEM_CHECK;
+
+						}
+					}
 
 				} else {
 					__NOP();

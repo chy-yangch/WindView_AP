@@ -39,6 +39,7 @@ enum dev_item {
 	DEV_WR3,
 	DEV_WL21,
 	DEV_WR3_EX,
+	DEV_WL21_EX,
 };
 
 enum dur_item {
@@ -52,6 +53,14 @@ enum sys_item {
 	SYS_TX_BAT,
 	SYS_FW_VER,
 	SYS_FW_RESTORE,
+};
+
+enum sn_ex_step {
+
+	SN_EX_A,
+	SN_EX_B,
+	SN_EX_C,
+	SN_EX_D,
 };
 
 struct PAGE_MAIN_SELECT
@@ -73,6 +82,11 @@ struct PAGE_AD_SELECT
 	__IO uint8_t sub_screen_index;
 	__IO uint8_t yes_no;
 	__IO uint8_t ad;
+	__IO int8_t ex_sn_ad_array[4];
+	__IO uint8_t sn_ex_set_step;
+	__IO uint8_t sn_ex_blinking_flag;
+	__IO uint16_t  ui_sn_ex_blinking_100ms_cnt;
+	__IO uint8_t  ui_sn_ex_blinking_status;
 };
 
 struct PAGE_THR_SELECT

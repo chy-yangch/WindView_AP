@@ -400,6 +400,22 @@ void TMR0_IRQHandler(void)
 	}
 
 
+	if (ui_select.page_ad_select.sn_ex_blinking_flag == ON) {
+
+		if (ui_select.page_ad_select.ui_sn_ex_blinking_100ms_cnt >= 10) {
+
+			ui_select.page_ad_select.ui_sn_ex_blinking_100ms_cnt = 0;
+			ui_select.page_ad_select.ui_sn_ex_blinking_status ^= ON;
+			info.exit_sleep_flag = 1;
+
+		} else {
+			ui_select.page_ad_select.ui_sn_ex_blinking_100ms_cnt++;
+		}
+
+	} else {
+		ui_select.page_ad_select.ui_sn_ex_blinking_100ms_cnt = 0;
+	}
+
 	if ((ui_select.page_sys_select.sys_item == SYS_FW_VER) && (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK)){
 
 		fwv_cnt++;
@@ -416,7 +432,7 @@ void TMR0_IRQHandler(void)
 				ui_select.page_sys_select.fwv_show++;
 		}
 	}
-	
+
 	if ((ui_select.page_sys_select.sys_item == SYS_FW_RESTORE) && (ui_select.page_sys_select.sub_screen_index == ITEM_CHECK)){
 
 		restore_cnt++;
@@ -432,7 +448,7 @@ void TMR0_IRQHandler(void)
 			else
 				ui_select.page_sys_select.restore_show++;
 		}
-	}	
+	}
 }
 
 void TMR1_IRQHandler(void)
@@ -487,6 +503,12 @@ void windview_eeprom_read(void)
 	info.windv_light_level 		=	eep2402_r_uint8(EEP_WINDV_LIGHT_LEVEL);
 	info.windv_mode			=	eep2402_r_uint8(EEP_WINDV_MODE);
 	info.windv_fla_sw			=	eep2402_r_uint8(EEP_WINDV_FLA_SW);
+
+
+	for (i = 0;i < 4; i++) {
+
+		info.windv_ex_sn[i] = eep2402_r_uint8(EEP_WINDV_EX_SN + i);
+	}
 
 	CLK_SysTickDelay(5000);
 }
@@ -557,6 +579,7 @@ void windview_eeprom_default(void)
 {
 	uint8_t i = 0;
 	int32_t reg_int32 = 0;
+	uint8_t ex_sn_default[4] = {25,1,1,40};
 
 	CLK_SysTickDelay(5000);
 
@@ -570,6 +593,10 @@ void windview_eeprom_default(void)
 	eerom2402_w_uint8(EEP_WINDV_MODE,MODE_DEF);
 	eerom2402_w_uint8(EEP_WINDV_FLA_SW,ON);
 
+	for (i = 0;i < 4; i++) {
+
+		eerom2402_w_uint8(EEP_WINDV_EX_SN + i,ex_sn_default[i]);
+	}
 
 	CLK_SysTickDelay(5000);
 

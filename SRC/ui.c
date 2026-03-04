@@ -6,6 +6,7 @@
 #include "ui.h"
 #include "cc1200.h"
 #include "led_font.h"
+#include "24LC02.h"
 
 void (*ui_fun_array[25])();
 void ui_init(void);
@@ -68,7 +69,11 @@ void page_logo (void)
 			W1_RESET = 1;
 
 			//cc1200_work_ch = info.wireless_ch_status = 42; // for test
-			cc1200_work_ch = info.windv_ad;
+
+			if ((info.windv_type == DEV_WR3) ||(info.windv_type == DEV_WL21))
+				cc1200_work_ch = info.windv_ad;
+			else
+				cc1200_work_ch = info.windv_ex_sn[3];
 
 			SPI_Open(SPI0, SPI_MASTER, SPI_MODE_0, 8, 2000000);
 			/* Disable auto SS function, control SS signal manually. */
@@ -230,6 +235,7 @@ void page_main (void)
 
 void page_dev (void)
 {
+	uint8_t i = 0,u8_reg = 0;
 
 	switch(info.page_step) {
 
@@ -272,6 +278,12 @@ void page_dev (void)
 					led_font_fun.led_n2_text(OFF,0);
 					led_font_fun.led_n3_text(ON,'C');
 
+				} else if (ui_select.page_dev_select.dev_type == DEV_WL21_EX) {
+
+					led_font_fun.led_n1_text(OFF,0);
+					led_font_fun.led_n2_text(OFF,0);
+					led_font_fun.led_n3_text(ON,'D');
+
 				} else {
 					__NOP();
 				}
@@ -285,6 +297,26 @@ void page_dev (void)
 				if (ui_select.ui_pause_100ms_cnt >= UI_PAUSE_2_SEC) {
 
 					info.page_step = INIT;
+
+
+					if ((info.windv_type == DEV_WR3) ||(info.windv_type == DEV_WL21)) {
+
+						cc1200_reset_setting(info.windv_ad);
+						info.cc1200_timeout_cn = CC1200_TIMEOUT_SEC;
+
+					} else {
+
+						for (i = 0;i < 4; i++) {
+
+							eerom2402_w_uint8(EEP_WINDV_EX_SN + i,ui_select.page_ad_select.ex_sn_ad_array[i]);
+						}
+
+						windview_eeprom_read();
+						u8_reg = info.windv_ex_sn[3];
+						cc1200_reset_setting(u8_reg);
+
+						info.cc1200_timeout_cn = CC1200_TIMEOUT_SEC;
+					}
 
 				} else {
 
@@ -303,6 +335,7 @@ void page_dev (void)
 
 void page_ad (void)
 {
+	uint8_t i = 0,u8_reg = 0;
 
 	switch(info.page_step) {
 
@@ -330,9 +363,89 @@ void page_ad (void)
 
 			if (ui_select.page_ad_select.sub_screen_index == ITEM_SELECT) {
 
-				led_font_fun.led_n1_number(OFF,0);
-				led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ad / 10);
-				led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ad % 10);
+				if ((info.windv_type == DEV_WR3) ||(info.windv_type == DEV_WL21)) {
+
+					led_font_fun.led_n1_number(OFF,0);
+					led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ad / 10);
+					led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ad % 10);
+
+				} else {
+
+					switch (ui_select.page_ad_select.sn_ex_set_step) {
+
+						case SN_EX_A:
+
+							led_font_fun.led_n1_text(ON,'A');
+
+							if(ui_select.page_ad_select.ui_sn_ex_blinking_status) {
+
+								led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ex_sn_ad_array[0] / 10);
+								led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ex_sn_ad_array[0] % 10);
+
+							} else {
+
+								led_font_fun.led_n2_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[0] / 10);
+								led_font_fun.led_n3_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[0] % 10);
+							}
+
+						break;
+
+						case SN_EX_B:
+
+							led_font_fun.led_n1_text(ON,'B');
+
+							if(ui_select.page_ad_select.ui_sn_ex_blinking_status) {
+
+								led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ex_sn_ad_array[1] / 10);
+								led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ex_sn_ad_array[1] % 10);
+
+							} else {
+
+								led_font_fun.led_n2_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[1] / 10);
+								led_font_fun.led_n3_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[1] % 10);
+							}
+
+						break;
+
+						case SN_EX_C:
+
+							led_font_fun.led_n1_text(ON,'C');
+
+							if(ui_select.page_ad_select.ui_sn_ex_blinking_status) {
+
+								led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ex_sn_ad_array[2] / 10);
+								led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ex_sn_ad_array[2] % 10);
+
+							} else {
+
+								led_font_fun.led_n2_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[2] / 10);
+								led_font_fun.led_n3_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[2] % 10);
+							}
+
+						break;
+
+						case SN_EX_D:
+
+							led_font_fun.led_n1_text(ON,'D');
+
+							if(ui_select.page_ad_select.ui_sn_ex_blinking_status) {
+
+								led_font_fun.led_n2_number(ON,ui_select.page_ad_select.ex_sn_ad_array[3] / 10);
+								led_font_fun.led_n3_number(ON,ui_select.page_ad_select.ex_sn_ad_array[3] % 10);
+
+							} else {
+
+								led_font_fun.led_n2_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[3] / 10);
+								led_font_fun.led_n3_number(OFF,ui_select.page_ad_select.ex_sn_ad_array[3] % 10);
+							}
+
+						break;
+
+						default:
+
+							__NOP();
+					}
+				}
 
 			} else if (ui_select.page_ad_select.sub_screen_index == ITEM_CHECK) {
 
@@ -340,7 +453,24 @@ void page_ad (void)
 
 					info.page_step = INIT;
 
-					cc1200_reset_setting(info.windv_ad);
+					if ((info.windv_type == DEV_WR3) ||(info.windv_type == DEV_WL21)) {
+
+						cc1200_reset_setting(info.windv_ad);
+						info.cc1200_timeout_cn = CC1200_TIMEOUT_SEC;
+
+					} else {
+
+						for (i = 0;i < 4; i++) {
+
+							eerom2402_w_uint8(EEP_WINDV_EX_SN + i,ui_select.page_ad_select.ex_sn_ad_array[i]);
+						}
+
+						windview_eeprom_read();
+						u8_reg = info.windv_ex_sn[3];
+						cc1200_reset_setting(u8_reg);
+
+						info.cc1200_timeout_cn = CC1200_TIMEOUT_SEC;
+					}
 
 				} else {
 

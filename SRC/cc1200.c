@@ -1006,7 +1006,7 @@ void registerConfig(void)
 	cc1200_channel_init(freq_offset);
 
 #ifdef CE
-		if (info.windv_type == TYPE_WR3P)
+		if ((info.windv_type == TYPE_WR3P) || (info.windv_type == TYPE_WR3P_EX))
 			cc1200_channel(cc1200_work_ch);
 		else
 			cc1200_channel(cc1200_work_ch + 2);
@@ -1038,6 +1038,7 @@ void runRX(SPI_T * spi) {
 }
 
 __IO uint8_t get_cn = 0;
+__IO uint8_t reg_u8[6] = {0};
 void runRX_none(SPI_T * spi_none) {
 
 	uint8_t  pkt_len = 0,rssi = 0;
@@ -1051,7 +1052,7 @@ void runRX_none(SPI_T * spi_none) {
 	uint32_t u32_reg;
 	uint8_t crc_check_ok = 0,ch_check = 0;
 	uint16_t degrees_reg = 0;
-	uint8_t reg_u8[6] = {0};
+	//uint8_t reg_u8[6] = {0};
 	uint8_t sn_check_ok = 0;
 	uint32_t timer3_cn = 0;
 
@@ -1153,7 +1154,9 @@ void runRX_none(SPI_T * spi_none) {
 
 			cc1200_re_setting = OFF;
 
-			if (info.tx_sn_binding_status) {
+			//if (info.tx_sn_binding_status) {
+
+			if ((info.windv_type == TYPE_WR3P_EX) || (info.windv_type == TYPE_WL21_EX)) {
 
 				/* 有綁定時,需對SN進行確認 */
 				reg_u8[0] = (rxBuffer[1] >> 1) + 20;
@@ -1163,15 +1166,53 @@ void runRX_none(SPI_T * spi_none) {
 				reg_u8[4] = ((rxBuffer[3] & 0x07) << 1) | ((rxBuffer[4] & 0x80) >> 7);
 				reg_u8[5] = (rxBuffer[4] & 0x7F);
 
+				sn_check_ok = ON;
+
+				if (info.windv_type == TYPE_WR3P_EX) {
+
+					if((reg_u8[2] == 'A') && (reg_u8[3] == 'T'))
+						__NOP();
+					else
+						sn_check_ok = OFF;
+
+				} else {
+
+					if((reg_u8[2] == 'D') && (reg_u8[3] == 'T'))
+						__NOP();
+					else
+						sn_check_ok = OFF;
+				}
+
+				if (reg_u8[0] == info.windv_ex_sn[0])
+					__NOP();
+				else
+					sn_check_ok = OFF;
+
+				if (reg_u8[1] == info.windv_ex_sn[1])
+					__NOP();
+				else
+					sn_check_ok = OFF;
+
+				if (reg_u8[4] == info.windv_ex_sn[2])
+					__NOP();
+				else
+					sn_check_ok = OFF;
+
+				if (reg_u8[5] == info.windv_ex_sn[3])
+					__NOP();
+				else
+					sn_check_ok = OFF;
+
 //				for (i = 0;i < 6;i++)
 //					printf("reg_u8[%d] = %d\r\n",i,reg_u8[i]);
 
-				if ((reg_u8[0] == info.rx_sn[0]) && (reg_u8[1] == info.rx_sn[1]) &&
-					(reg_u8[2] == 'A') && (reg_u8[3] == 'T') &&
-					(reg_u8[4] == info.rx_sn[4]) && (reg_u8[5] == info.rx_sn[5]))
-					sn_check_ok = ON;
-				else
-					sn_check_ok = OFF;
+//				if ((reg_u8[0] == info.rx_sn[0]) && (reg_u8[1] == info.rx_sn[1]) &&
+//					(reg_u8[2] == 'A') && (reg_u8[3] == 'T') &&
+//					(reg_u8[4] == info.rx_sn[4]) && (reg_u8[5] == info.rx_sn[5]))
+//					sn_check_ok = ON;
+//				else
+//					sn_check_ok = OFF;
+
 			} else {
 
 				reg_u8[0] = (rxBuffer[1] >> 1) + 20;
@@ -1183,7 +1224,6 @@ void runRX_none(SPI_T * spi_none) {
 
 				/* 沒有綁定時,如果不是相同頻道時放棄該筆資料 */
 				ch_check = (rxBuffer[4] & 0x7F);
-
 
 				if (info.windv_type == TYPE_WR3P) {
 
@@ -1198,10 +1238,6 @@ void runRX_none(SPI_T * spi_none) {
 						sn_check_ok = ON;
 					else
 						sn_check_ok = OFF;
-
-				} else if (info.windv_type == TYPE_WR3P_EX) {
-
-					sn_check_ok = ON;
 
 				} else{
 					__NOP();
